@@ -1,0 +1,2299 @@
+<!DOCTYPE html>
+<html lang="my" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>Staff Attendance</title>
+<meta name="theme-color" content="#2563eb"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="T Moe Attendance"/>
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;T Moe Attendance&quot;,&quot;short_name&quot;:&quot;Attendance&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;%232563eb&quot;,&quot;theme_color&quot;:&quot;%232563eb&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232563eb' rx='20'/><text y='.9em' font-size='80'>🍽️</text></svg>&quot;,&quot;sizes&quot;:&quot;any&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Noto+Sans+Myanmar:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════ */
+[data-theme="light"] {
+  --bg:         #f0f4fd;
+  --bg2:        #e6ecf8;
+  --card:       #ffffff;
+  --card2:      #f8faff;
+  --card3:      #f1f5ff;
+  --border:     rgba(59,130,246,0.1);
+  --border2:    rgba(59,130,246,0.25);
+  --accent:     #2563eb;
+  --accent2:    #3b82f6;
+  --accent3:    #60a5fa;
+  --asoft:      rgba(37,99,235,0.08);
+  --tx:         #0f172a;
+  --tx2:        #334155;
+  --tx3:        #64748b;
+  --tx4:        #94a3b8;
+  --ok:         #16a34a;
+  --ok-bg:      rgba(22,163,74,0.08);
+  --ok-bd:      rgba(22,163,74,0.2);
+  --er:         #dc2626;
+  --er-bg:      rgba(220,38,38,0.07);
+  --er-bd:      rgba(220,38,38,0.2);
+  --wn:         #d97706;
+  --wn-bg:      rgba(217,119,6,0.08);
+  --wn-bd:      rgba(217,119,6,0.2);
+  --sh:         0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+  --sh-md:      0 10px 30px rgba(37,99,235,0.1), 0 4px 8px rgba(0,0,0,0.06);
+  --sh-lg:      0 20px 50px rgba(37,99,235,0.12), 0 8px 16px rgba(0,0,0,0.08);
+  --sh-hero:    0 20px 60px rgba(37,99,235,0.3), 0 4px 12px rgba(37,99,235,0.15);
+  --inp:        #f8faff;
+  --inp-bd:     rgba(59,130,246,0.2);
+  --inp-f:      rgba(37,99,235,0.3);
+  --hero:       linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
+  --hero-admin: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  --shine:      rgba(255,255,255,0.08);
+}
+[data-theme="dark"] {
+  --bg:         #0b0f1a;
+  --bg2:        #111827;
+  --card:       #1a2235;
+  --card2:      #1e2844;
+  --card3:      #222f50;
+  --border:     rgba(99,179,237,0.1);
+  --border2:    rgba(99,179,237,0.25);
+  --accent:     #3b82f6;
+  --accent2:    #60a5fa;
+  --accent3:    #93c5fd;
+  --asoft:      rgba(59,130,246,0.15);
+  --tx:         #f0f6ff;
+  --tx2:        #cbd5e1;
+  --tx3:        #94a3b8;
+  --tx4:        #64748b;
+  --ok:         #4ade80;
+  --ok-bg:      rgba(74,222,128,0.1);
+  --ok-bd:      rgba(74,222,128,0.25);
+  --er:         #f87171;
+  --er-bg:      rgba(248,113,113,0.1);
+  --er-bd:      rgba(248,113,113,0.25);
+  --wn:         #fbbf24;
+  --wn-bg:      rgba(251,191,36,0.1);
+  --wn-bd:      rgba(251,191,36,0.25);
+  --sh:         0 4px 6px rgba(0,0,0,0.3);
+  --sh-md:      0 10px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+  --sh-lg:      0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  --sh-hero:    0 20px 60px rgba(37,99,235,0.25), 0 0 0 1px rgba(255,255,255,0.06);
+  --inp:        #111827;
+  --inp-bd:     rgba(99,179,237,0.2);
+  --inp-f:      rgba(99,179,237,0.4);
+  --hero:       linear-gradient(135deg, #1e3a6e 0%, #162d58 50%, #0f2040 100%);
+  --hero-admin: linear-gradient(135deg, #162040 0%, #0d1830 100%);
+  --shine:      rgba(255,255,255,0.03);
+}
+
+/* ══════════════════════════════════════
+   BASE
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  font-family: 'Noto Sans Myanmar', 'DM Sans', 'Segoe UI', sans-serif;
+  color: var(--tx);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes spin      { to { transform: rotate(360deg); } }
+@keyframes fadeUp    { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+@keyframes cardPop   { from { opacity:0; transform:translateY(16px) scale(.98); } to { opacity:1; transform:none; } }
+@keyframes floatClk  { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-8px) rotate(1deg); } }
+@keyframes slideDown { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:none; } }
+@keyframes rowSlide  { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:none; } }
+@keyframes shimBtn   { 0% { left:-100%; } 100% { left:130%; } }
+@keyframes shake     { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+@keyframes pulseOk   { 0%,100%{box-shadow:0 0 0 0 var(--ok-bd);} 50%{box-shadow:0 0 0 10px transparent;} }
+@keyframes glow      { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+
+/* ══════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════ */
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-bottom: 48px;
+}
+.page {
+  width: 100%;
+  max-width: 430px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.anim-fade  { animation: fadeUp .45s ease both; }
+.anim-pop   { animation: cardPop .4s cubic-bezier(.34,1.56,.64,1) both; }
+.anim-pop1  { animation: cardPop .4s cubic-bezier(.34,1.56,.64,1) .06s both; }
+.anim-pop2  { animation: cardPop .4s cubic-bezier(.34,1.56,.64,1) .12s both; }
+.anim-pop3  { animation: cardPop .4s cubic-bezier(.34,1.56,.64,1) .18s both; }
+.shake      { animation: shake .4s ease; }
+.float-clk  { animation: floatClk 3.5s ease-in-out infinite; }
+
+/* ══════════════════════════════════════
+   APP HEADER
+══════════════════════════════════════ */
+.app-header {
+  width: 100%;
+  max-width: 430px;
+  padding: 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-header-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--tx);
+}
+.header-actions { display: flex; gap: 8px; }
+.icon-btn {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--tx3); font-size: 16px;
+  transition: all .2s ease;
+}
+.icon-btn:hover { transform: scale(1.08); border-color: var(--border2); }
+
+/* Theme toggle */
+#thm-btn {
+  position: fixed; top: 14px; right: 14px; z-index: 1000;
+  width: 42px; height: 42px; border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer; font-size: 18px;
+  box-shadow: var(--sh-md);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .25s cubic-bezier(.34,1.56,.64,1);
+}
+#thm-btn:hover { transform: scale(1.1) rotate(12deg); }
+
+/* ══════════════════════════════════════
+   CARD
+══════════════════════════════════════ */
+.card {
+  background: var(--card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 18px 16px;
+  box-shadow: var(--sh-md);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .25s, border-color .25s, transform .25s;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--shine), transparent);
+  pointer-events: none;
+}
+.card-lg { box-shadow: var(--sh-lg); }
+.card:hover { box-shadow: var(--sh-lg); }
+
+/* ══════════════════════════════════════
+   HERO CARD
+══════════════════════════════════════ */
+.hero {
+  background: var(--hero);
+  border-radius: 24px;
+  padding: 22px 20px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--sh-hero);
+  border: none;
+}
+.hero-admin { background: var(--hero-admin); }
+.hero-orb {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  background: rgba(255,255,255,0.07);
+}
+.hero-orb-1 { width:200px; height:200px; top:-60px; right:-60px; }
+.hero-orb-2 { width:120px; height:120px; bottom:-30px; left:-30px; background:rgba(255,255,255,0.04); }
+
+/* ══════════════════════════════════════
+   CLOCK ILLUSTRATION
+══════════════════════════════════════ */
+.clock-wrap {
+  width: 110px; height: 120px;
+  flex-shrink: 0; position: relative;
+}
+.clock-shadow {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 12px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 50%; filter: blur(6px);
+  animation: floatClk 3.5s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════
+   STAT BOXES
+══════════════════════════════════════ */
+.stat-row { display: flex; gap: 8px; }
+.stat-box {
+  flex: 1; text-align: center;
+  padding: 14px 8px; border-radius: 16px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  transition: all .25s cubic-bezier(.34,1.56,.64,1);
+  cursor: default;
+}
+.stat-box:hover { transform: translateY(-3px) scale(1.02); box-shadow: var(--sh-md); }
+.stat-box.hi {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(37,99,235,0.35);
+  color: #fff;
+}
+.stat-box.hi:hover { box-shadow: 0 12px 28px rgba(37,99,235,0.45); }
+.stat-lbl {
+  font-size: 10px; font-weight: 500; letter-spacing: .8px;
+  text-transform: uppercase; color: var(--tx4);
+  font-family: 'DM Mono', monospace; margin-bottom: 6px;
+}
+.stat-box.hi .stat-lbl { color: rgba(255,255,255,0.7); }
+.stat-val {
+  font-size: 14px; font-weight: 700;
+  color: var(--tx); font-family: 'DM Mono', monospace;
+}
+.stat-box.hi .stat-val { color: #fff; }
+
+/* ══════════════════════════════════════
+   TABS
+══════════════════════════════════════ */
+.tabs {
+  display: flex; gap: 3px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 4px;
+  box-shadow: var(--sh);
+}
+.tab-btn {
+  flex: 1; padding: 9px 8px; border-radius: 12px;
+  border: none; cursor: pointer;
+  font-size: 13px; font-family: 'DM Sans', inherit;
+  font-weight: 500; color: var(--tx4);
+  background: transparent;
+  transition: all .2s cubic-bezier(.34,1.56,.64,1);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; font-weight: 700;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+}
+.admin-tabs { display: flex; gap: 5px; flex-wrap: wrap; }
+.admin-tab {
+  padding: 8px 14px; border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card2); color: var(--tx3);
+  cursor: pointer; font-size: 12px;
+  font-family: 'DM Sans', inherit; font-weight: 500;
+  transition: all .2s cubic-bezier(.34,1.56,.64,1);
+}
+.admin-tab.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-color: transparent; color: #fff; font-weight: 700;
+}
+
+/* ══════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; border: none; cursor: pointer;
+  font-family: 'DM Sans', inherit; font-weight: 700;
+  border-radius: 14px; padding: 13px 20px;
+  font-size: 14px; letter-spacing: .3px;
+  position: relative; overflow: hidden;
+  transition: all .22s cubic-bezier(.34,1.56,.64,1);
+}
+.btn::after {
+  content: '';
+  position: absolute; top: 0; left: -100%; width: 55%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-15deg);
+  transition: left .4s;
+  pointer-events: none;
+}
+.btn:hover::after { left: 130%; }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.07); }
+.btn:active { transform: translateY(1px) scale(.97); }
+.btn-full { width: 100%; font-size: 15px; padding: 15px 20px; }
+.btn-blue {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(37,99,235,0.3);
+}
+.btn-blue:hover { box-shadow: 0 10px 28px rgba(37,99,235,0.45); }
+.btn-green {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(34,197,94,0.28);
+}
+.btn-green:hover { box-shadow: 0 10px 26px rgba(34,197,94,0.42); }
+.btn-red {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(220,38,38,0.28);
+}
+.btn-red:hover { box-shadow: 0 10px 26px rgba(220,38,38,0.42); }
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid var(--border2);
+  color: var(--accent);
+}
+.btn-danger {
+  background: var(--er-bg);
+  border: 1px solid var(--er-bd);
+  color: var(--er);
+}
+.btn-teal {
+  background: linear-gradient(135deg, #0e7490, #22d3ee);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(34,211,238,0.25);
+}
+.btn-sm { padding: 9px 16px; font-size: 13px; border-radius: 12px; }
+.btn-xs { padding: 5px 12px; font-size: 12px; border-radius: 10px; }
+
+/* Check In/Out hero button */
+.btn-clockin {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px; border-radius: 14px; border: none;
+  cursor: pointer; font-size: 14px; font-weight: 700;
+  font-family: 'DM Sans', inherit; letter-spacing: .3px;
+  position: relative; overflow: hidden;
+  transition: all .22s cubic-bezier(.34,1.56,.64,1);
+}
+.btn-clockin:hover { transform: translateY(-2px); }
+.btn-clockin:active { transform: scale(.97); }
+.btn-clockin-in  { background: rgba(34,197,94,0.2); color: #4ade80; border: 1px solid rgba(34,197,94,0.35); }
+.btn-clockin-out { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.35); }
+.btn-clockin-done{ background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); cursor: default; }
+
+/* ══════════════════════════════════════
+   INPUT
+══════════════════════════════════════ */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--tx3); letter-spacing: .3px; }
+.inp {
+  background: var(--inp);
+  border: 1.5px solid var(--inp-bd);
+  border-radius: 14px; color: var(--tx);
+  padding: 13px 16px; font-size: 14px;
+  outline: none; font-family: inherit; width: 100%;
+  transition: border-color .2s, box-shadow .2s;
+}
+.inp:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--asoft), 0 0 16px rgba(37,99,235,0.1);
+}
+.inp::placeholder { color: var(--tx4) !important; }
+select.inp {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  padding-right: 36px; cursor: pointer;
+}
+select option { background: var(--card); color: var(--tx); }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  height: 4px; background: var(--border); border-radius: 2px;
+  outline: none; width: 100%;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 50%; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.35);
+}
+
+/* ══════════════════════════════════════
+   HISTORY ROW
+══════════════════════════════════════ */
+.hist-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 14px; border-radius: 14px;
+  background: transparent; border: 1px solid transparent;
+  transition: all .2s cubic-bezier(.34,1.56,.64,1);
+  cursor: pointer; margin-bottom: 2px;
+}
+.hist-row:hover {
+  background: var(--card3);
+  border-color: var(--border);
+  transform: translateX(3px);
+  box-shadow: var(--sh);
+}
+.hist-icon {
+  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  background: var(--asoft);
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ══════════════════════════════════════
+   BADGE
+══════════════════════════════════════ */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 11px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.badge-ok  { background: var(--ok-bg); color: var(--ok); border: 1px solid var(--ok-bd); }
+.badge-wn  { background: var(--wn-bg); color: var(--wn); border: 1px solid var(--wn-bd); }
+.badge-mu  { background: var(--asoft); color: var(--tx3); border: 1px solid var(--border); }
+.badge-er  { background: var(--er-bg); color: var(--er); border: 1px solid var(--er-bd); }
+
+/* ══════════════════════════════════════
+   EMPLOYEE ROW
+══════════════════════════════════════ */
+.emp-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; margin-bottom: 8px;
+  border-radius: 16px;
+  background: var(--card2); border: 1px solid var(--border);
+  transition: all .2s cubic-bezier(.34,1.56,.64,1); cursor: pointer;
+}
+.emp-row:hover {
+  transform: translateX(4px);
+  box-shadow: var(--sh-md);
+  border-color: var(--border2);
+}
+.emp-avatar {
+  width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
+  background: var(--asoft); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+
+/* Device pill */
+.device-pill {
+  margin-top: 10px; padding: 8px 12px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.device-pill-ok  { background: var(--ok-bg); border: 1px solid var(--ok-bd); }
+.device-pill-no  { background: var(--wn-bg); border: 1px solid var(--wn-bd); }
+
+/* ══════════════════════════════════════
+   CALENDAR
+══════════════════════════════════════ */
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+.cal-head { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 6px; }
+.cal-dow  { text-align: center; font-size: 11px; color: var(--tx4); font-weight: 600; padding: 3px 0; }
+.cal-day {
+  aspect-ratio: 1; border-radius: 10px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; cursor: pointer;
+  transition: transform .15s cubic-bezier(.34,1.56,.64,1);
+  border: 1px solid transparent;
+}
+.cal-day:hover { transform: scale(1.12); }
+.cal-day-n  { font-size: 12px; font-weight: 500; color: var(--tx2); }
+.cal-day-dot{ width: 5px; height: 5px; border-radius: 50%; }
+.cal-empty  { border: none; pointer-events: none; }
+.cal-future { opacity: .35; pointer-events: none; }
+.cal-ok  { background: var(--ok-bg); border-color: var(--ok-bd); }
+.cal-ok .cal-day-n  { color: var(--ok); font-weight: 700; }
+.cal-ok .cal-day-dot{ background: var(--ok); }
+.cal-pa  { background: var(--wn-bg); border-color: var(--wn-bd); }
+.cal-pa .cal-day-n  { color: var(--wn); font-weight: 700; }
+.cal-pa .cal-day-dot{ background: var(--wn); }
+.cal-ab  { background: var(--er-bg); border-color: var(--er-bd); }
+.cal-ab .cal-day-n  { color: var(--er); font-weight: 700; }
+.cal-ab .cal-day-dot{ background: var(--er); }
+.cal-today { background: linear-gradient(135deg,var(--accent),var(--accent2)) !important; border-color: transparent !important; box-shadow: 0 4px 12px rgba(37,99,235,0.35); }
+.cal-today .cal-day-n { color: #fff !important; }
+.cal-stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.cal-stat {
+  border-radius: 14px; padding: 12px 6px; text-align: center;
+}
+.cal-stat-ok { background: var(--ok-bg); border: 1px solid var(--ok-bd); }
+.cal-stat-wn { background: var(--wn-bg); border: 1px solid var(--wn-bd); }
+.cal-stat-er { background: var(--er-bg); border: 1px solid var(--er-bd); }
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+.toast {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; animation: slideDown .3s cubic-bezier(.34,1.56,.64,1);
+  max-width: 320px; width: calc(100% - 32px);
+}
+.toast-inner {
+  padding: 12px 18px; border-radius: 16px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  font-weight: 500; text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  backdrop-filter: blur(12px);
+}
+.toast-ok { background: var(--card); border: 1px solid var(--ok-bd); color: var(--ok); }
+.toast-er { background: var(--card); border: 1px solid var(--er-bd); color: var(--er); }
+
+/* ══════════════════════════════════════
+   PROFILE CARD
+══════════════════════════════════════ */
+.profile-card {
+  background: var(--card);
+  border-radius: 20px; border: 1px solid var(--border);
+  padding: 14px 16px; display: flex; align-items: center;
+  gap: 14px; box-shadow: var(--sh-md);
+  transition: box-shadow .2s;
+}
+.profile-ava {
+  width: 50px; height: 50px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--asoft), rgba(37,99,235,0.05));
+  border: 1.5px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════
+   TIME BOX (employee check in/out)
+══════════════════════════════════════ */
+.time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.time-box {
+  border-radius: 16px; padding: 14px 16px;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  transition: all .25s;
+}
+.time-box.in-active  { background: var(--ok-bg); border-color: var(--ok-bd); box-shadow: 0 4px 14px var(--ok-bd); }
+.time-box.out-active { background: var(--er-bg); border-color: var(--er-bd); box-shadow: 0 4px 14px var(--er-bd); }
+.time-label { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Mono', monospace; color: var(--tx4); margin-bottom: 6px; }
+.time-value { font-size: 20px; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--tx4); }
+.time-box.in-active  .time-value { color: var(--wn); }
+.time-box.out-active .time-value { color: var(--ok); }
+.time-loc { font-size: 9px; color: var(--tx4); margin-top: 4px; }
+
+/* Hours box */
+.hours-box {
+  background: var(--asoft); border: 1px solid var(--border2);
+  border-radius: 14px; padding: 10px 16px;
+  text-align: center; margin-bottom: 14px;
+}
+/* Done banner */
+.done-banner {
+  text-align: center; padding: 16px; border-radius: 16px;
+  background: var(--ok-bg); border: 1px solid var(--ok-bd);
+  color: var(--ok); font-size: 14px; font-weight: 600;
+  animation: pulseOk 2.5s ease infinite;
+}
+
+/* ══════════════════════════════════════
+   GEO / NOTICE BOXES
+══════════════════════════════════════ */
+.notice-box {
+  border-radius: 12px; padding: 10px 14px;
+  display: flex; gap: 8px; align-items: center;
+  margin-bottom: 12px;
+}
+.notice-blue { background: var(--asoft); border: 1px solid var(--border2); }
+.notice-wn   { background: var(--wn-bg); border: 1px solid var(--wn-bd); }
+.notice-ok   { background: var(--ok-bg); border: 1px solid var(--ok-bd); }
+.notice-info {
+  background: var(--asoft); border: 1px solid var(--border2);
+  border-radius: 14px; padding: 12px 14px; margin-bottom: 14px;
+}
+.toggle-track {
+  width: 46px; height: 26px; border-radius: 13px; border: none;
+  cursor: pointer; position: relative; transition: background .2s;
+}
+.toggle-thumb {
+  position: absolute; top: 3px; width: 20px; height: 20px;
+  border-radius: 50%; background: #fff;
+  transition: left .2s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+/* ══════════════════════════════════════
+   MISC
+══════════════════════════════════════ */
+.section-label {
+  font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--tx4); font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 12px;
+}
+.logout-btn {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.9); border-radius: 12px; padding: 8px 14px;
+  cursor: pointer; font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+  transition: background .2s;
+}
+.logout-btn:hover { background: rgba(255,255,255,0.2); }
+.nav-back {
+  background: var(--card2); border: 1px solid var(--border);
+  color: var(--tx3); border-radius: 12px; padding: 9px 16px;
+  cursor: pointer; font-size: 12px; font-family: 'DM Sans', sans-serif;
+  align-self: flex-start; transition: all .2s;
+}
+.nav-back:hover { border-color: var(--border2); color: var(--accent); }
+.add-dash {
+  width: 100%; padding: 12px; border-radius: 14px;
+  border: 1.5px dashed var(--border2); background: transparent;
+  color: var(--accent); cursor: pointer; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; transition: background .2s;
+}
+.add-dash:hover { background: var(--asoft); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pw-row { display: flex; gap: 10px; align-items: flex-end; }
+.flex-center { display: flex; align-items: center; justify-content: center; min-height: 100vh; flex-direction: column; gap: 16px; }
+.spinner { width: 28px; height: 28px; border: 2.5px solid var(--border); border-top: 2.5px solid var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+
+/* Export */
+.exp-card1 { background: var(--ok-bg); border: 1px solid var(--ok-bd); border-radius: 14px; padding: 14px; }
+.exp-card2 { background: var(--asoft); border: 1px solid var(--border2); border-radius: 14px; padding: 14px; }
+.info-row  { background: var(--asoft); border: 1px solid var(--border); border-radius: 14px; padding: 12px 16px; display: flex; gap: 20px; flex-wrap: wrap; }
+
+/* Setup steps */
+.setup-step { display: flex; gap: 12px; padding: 14px; background: var(--card2); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 8px; transition: border-color .2s; }
+.setup-step:hover { border-color: var(--border2); }
+.add-form  { background: var(--card2); border-radius: 16px; padding: 14px; border: 1px solid var(--border2); display: flex; flex-direction: column; gap: 12px; animation: cardPop .3s ease; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ═══════════════════════════════
+   INTRO ANIMATION
+═══════════════════════════════ */
+#intro-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #1a2a6c;
+  background: linear-gradient(135deg, #1a2a6c 0%, #0d1f4a 40%, #0a1530 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity .6s ease, transform .6s ease;
+}
+#intro-screen.hide {
+  opacity: 0; pointer-events: none;
+  transform: scale(1.05);
+}
+@keyframes introFadeIn { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:none;} }
+@keyframes introPulse  { 0%,100%{transform:scale(1);} 50%{transform:scale(1.04);} }
+@keyframes introGlow   { 0%,100%{text-shadow:0 0 20px rgba(59,130,246,0.5);} 50%{text-shadow:0 0 40px rgba(59,130,246,0.9),0 0 80px rgba(59,130,246,0.3);} }
+@keyframes ringExpand  { 0%{transform:scale(0.6);opacity:0;} 60%{opacity:.6;} 100%{transform:scale(2.2);opacity:0;} }
+@keyframes plateSpin   { from{transform:rotate(-5deg);} to{transform:rotate(5deg);} }
+@keyframes tagLine     { 0%{opacity:0;letter-spacing:6px;} 100%{opacity:1;letter-spacing:2px;} }
+@keyframes barGrow     { from{width:0;} to{width:100%;} }
+.intro-ring {
+  position: absolute;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 2px solid rgba(59,130,246,0.4);
+  animation: ringExpand 2.5s ease-out infinite;
+}
+.intro-ring-2 { animation-delay: .8s; }
+.intro-ring-3 { animation-delay: 1.6s; }
+
+/* ══ DASHBOARD ══ */
+.dash-ring-wrap{position:relative;width:110px;height:110px;flex-shrink:0;}
+.dash-ring-wrap svg{transform:rotate(-90deg);}
+.dash-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.dash-bar-row{display:flex;align-items:flex-end;gap:4px;height:60px;margin-top:6px;}
+.dash-bar{flex:1;border-radius:4px 4px 0 0;transition:height .4s cubic-bezier(.34,1.56,.64,1),opacity .4s;min-height:3px;cursor:pointer;position:relative;}
+.dash-bar:hover{opacity:.8;}
+.dash-bar-lbl{font-size:9px;color:var(--tx4);text-align:center;margin-top:3px;font-family:'DM Mono',monospace;}
+
+/* ══ SELFIE ══ */
+.selfie-preview{width:100%;aspect-ratio:4/3;border-radius:16px;object-fit:cover;border:2px solid var(--border2);display:block;}
+.selfie-overlay{position:absolute;inset:0;border-radius:16px;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.cam-btn{width:56px;height:56px;border-radius:50%;background:white;border:3px solid rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.3);transition:transform .2s;}
+.cam-btn:hover{transform:scale(1.08);}
+.cam-btn:active{transform:scale(.92);}
+
+/* ══ OFFLINE BANNER ══ */
+.offline-banner{position:fixed;top:0;left:0;right:0;z-index:8888;background:#ef4444;color:#fff;text-align:center;padding:8px 16px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;transform:translateY(-100%);transition:transform .3s ease;}
+.offline-banner.show{transform:translateY(0);}
+
+/* ══ PRINT / PDF ══ */
+@media print{
+  #intro-screen,#thm-btn,.app-header,.tabs,.admin-tabs,.btn,.profile-card{display:none!important;}
+  body{background:#fff!important;color:#000!important;}
+  .card{box-shadow:none!important;border:1px solid #ddd!important;}
+  .print-section{display:block!important;}
+}
+.print-section{display:none;}
+.salary-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-bd);}
+
+
+/* ══ STAFF TYPE ══ */
+.type-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.3px;}
+.type-external{background:rgba(37,99,235,0.1);color:var(--accent);border:1px solid rgba(37,99,235,0.2);}
+.type-livein   {background:rgba(22,163,74,0.1);color:var(--ok);  border:1px solid rgba(22,163,74,0.2);}
+.window-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:10px;}
+.window-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.win-time{font-family:"DM Mono",monospace;font-size:13px;font-weight:700;color:var(--accent);}
+.win-active{background:rgba(37,99,235,0.08);border-color:rgba(37,99,235,0.25);}
+.win-warn {background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);}
+
+/* ══ SAVED ACCOUNTS ══ */
+.saved-acc-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.saved-acc-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:14px;border:1px solid var(--border2);background:var(--card2);cursor:pointer;transition:all .2s cubic-bezier(.34,1.56,.64,1);flex:1;min-width:120px;}
+.saved-acc-btn:hover{background:var(--asoft);border-color:var(--accent);transform:translateY(-2px);}
+.saved-acc-ava{width:30px;height:30px;border-radius:9px;background:var(--asoft);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.saved-acc-name{font-weight:600;font-size:12px;color:var(--tx);line-height:1.2;}
+.saved-acc-role{font-size:10px;color:var(--tx4);}
+
+/* ══ AUDIT LOG ══ */
+.audit-row{display:flex;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card2);margin-bottom:6px;transition:background .2s;}
+.audit-row:hover{background:var(--card3);}
+.audit-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.audit-add   {background:var(--ok-bg);border:1px solid var(--ok-bd);}
+.audit-delete{background:var(--er-bg);border:1px solid var(--er-bd);}
+.audit-edit  {background:var(--wn-bg);border:1px solid var(--wn-bd);}
+.audit-login {background:var(--asoft);border:1px solid var(--border2);}
+.audit-geo   {background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);}
+.audit-ts{font-size:10px;color:var(--tx4);font-family:"DM Mono",monospace;margin-top:2px;}
+
+/* ══ RECOVERY ══ */
+.recovery-box{background:var(--er-bg);border:1px solid var(--er-bd);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.recovery-success{background:var(--ok-bg);border:1px solid var(--ok-bd);border-radius:14px;padding:14px;text-align:center;}
+
+/* ══ COMMS FAB ══ */
+.comms-fab{
+  position:fixed;bottom:24px;right:16px;z-index:7000;
+  width:54px;height:54px;border-radius:18px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:22px;
+  box-shadow:0 8px 24px rgba(37,99,235,0.45);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.comms-fab:hover{transform:scale(1.1) translateY(-2px);box-shadow:0 12px 32px rgba(37,99,235,0.55);}
+.comms-fab:active{transform:scale(.94);}
+.comms-fab-badge{
+  position:absolute;top:-5px;right:-5px;
+  background:#ef4444;color:#fff;
+  width:18px;height:18px;border-radius:9px;
+  font-size:10px;font-weight:700;font-family:'DM Mono',monospace;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--bg);
+}
+
+/* ══ COMMS SHEET ══ */
+.comms-sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--card);
+  border-radius:24px 24px 0 0;
+  height:82vh;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.3);
+  animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.comms-header{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+
+/* ══ CHAT ══ */
+.chat-list{
+  flex:1;overflow-y:auto;
+  padding:12px 14px;
+  display:flex;flex-direction:column;gap:10px;
+  -webkit-overflow-scrolling:touch;
+}
+.chat-bubble-wrap{display:flex;gap:8px;align-items:flex-end;}
+.chat-me{flex-direction:row-reverse;}
+.chat-ava{width:28px;height:28px;border-radius:9px;background:var(--asoft);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.chat-name{margin:0 0 3px;font-size:10px;color:var(--tx4);font-weight:600;}
+.chat-bubble{padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.5;word-break:break-word;}
+.chat-bubble-me{border-radius:16px 16px 4px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+.chat-bubble-them{border-radius:16px 16px 16px 4px;background:var(--card2);color:var(--tx);border:1px solid var(--border);}
+.chat-ts{margin:3px 0 0;font-size:9px;color:var(--tx4);font-family:'DM Mono',monospace;}
+.chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0;}
+.chat-send-btn{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s;}
+.chat-send-btn:active{transform:scale(.9);}
+
+/* ══ CALL ══ */
+.call-sheet-body{flex:1;display:flex;align-items:center;justify-content:center;}
+.call-btn{width:62px;height:62px;border-radius:50%;border:none;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;transition:transform .15s;}
+.call-btn:active{transform:scale(.9);}
+.call-btn-end{background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 6px 20px rgba(220,38,38,0.4);}
+.call-btn-ans{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 6px 20px rgba(22,163,74,0.4);}
+
+/* ══ INCOMING CALL BANNER ══ */
+.incoming-call-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:8500;
+  background:linear-gradient(135deg,#15803d,#16a34a);
+  padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  animation:slideUp .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 -4px 24px rgba(22,163,74,0.5);
+}
+
+</style>
+</head>
+<body>
+
+
+<div id="offline-banner" class="offline-banner">📵 Internet မရှိပါ — Data offline သိမ်းနေသည်</div>
+<div id="intro-screen">
+  <!-- Pulsing rings -->
+  <div class="intro-ring"></div>
+  <div class="intro-ring intro-ring-2"></div>
+  <div class="intro-ring intro-ring-3"></div>
+
+  <!-- Logo plate -->
+  <div style="position:relative;z-index:2;text-align:center;animation:introFadeIn .8s ease .2s both;">
+    <!-- Plate icon -->
+    <div style="margin-bottom:18px;">
+      <svg width="90" height="90" viewBox="0 0 90 90" fill="none" style="animation:introPulse 2s ease-in-out infinite .5s;">
+        <!-- Plate -->
+        <circle cx="45" cy="45" r="38" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+        <circle cx="45" cy="45" r="30" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- Fork -->
+        <path d="M32 22 L32 42 Q32 46 35 48 L35 68" stroke="rgba(255,255,255,0.9)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M29 22 L29 34" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M32 22 L32 34" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M35 22 L35 34" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Knife -->
+        <path d="M55 22 C60 22 62 28 62 34 L62 42 Q62 46 58 48 L58 68" stroke="rgba(255,255,255,0.9)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M55 22 L55 34" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Star accents -->
+        <circle cx="45" cy="45" r="3" fill="rgba(96,165,250,0.8)"/>
+      </svg>
+    </div>
+
+    <!-- Restaurant name -->
+    <div style="margin-bottom:8px;">
+      <p style="margin:0;color:rgba(255,255,255,0.55);font-size:11px;letter-spacing:4px;
+        font-family:'DM Sans',sans-serif;font-weight:500;text-transform:uppercase;
+        animation:tagLine 1s ease .5s both;">
+        WELCOME TO
+      </p>
+      <h1 style="margin:8px 0 4px;color:#ffffff;font-size:30px;font-weight:800;
+        font-family:'DM Sans',sans-serif;letter-spacing:1px;line-height:1.2;
+        animation:introGlow 2.5s ease-in-out 1s infinite,introFadeIn .8s ease .6s both;">
+        T Moe
+      </h1>
+      <h2 style="margin:0;color:rgba(147,197,253,0.9);font-size:17px;font-weight:600;
+        font-family:'DM Sans',sans-serif;letter-spacing:3px;text-transform:uppercase;
+        animation:introFadeIn .8s ease .8s both;">
+        RESTAURANT
+      </h2>
+    </div>
+
+    <!-- Divider -->
+    <div style="margin:16px auto 16px;width:60px;height:2px;background:linear-gradient(90deg,transparent,rgba(96,165,250,0.8),transparent);animation:introFadeIn .8s ease 1s both;"></div>
+
+    <!-- Tagline -->
+    <p style="margin:0 0 28px;color:rgba(255,255,255,0.45);font-size:12px;
+      font-family:'DM Sans',sans-serif;letter-spacing:1.5px;
+      animation:introFadeIn .8s ease 1.1s both;">
+      Staff Attendance System
+    </p>
+
+    <!-- Loading bar -->
+    <div style="width:160px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin:0 auto;animation:introFadeIn .4s ease 1.2s both;">
+      <div id="intro-bar" style="height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:2px;transition:width .05s linear;"></div>
+    </div>
+    <p id="intro-pct" style="margin:8px 0 0;color:rgba(255,255,255,0.3);font-size:10px;font-family:'DM Mono',monospace;letter-spacing:1px;">Loading...</p>
+  </div>
+</div>
+
+<script>
+// Intro animation controller
+(function(){
+  var bar = null, pct = null, prog = 0;
+  var durations = [30,25,20,15,10]; // ms per % at different stages
+  
+  function start(){
+    bar = document.getElementById('intro-bar');
+    pct = document.getElementById('intro-pct');
+    if(!bar) return;
+    tick();
+  }
+  
+  function tick(){
+    if(prog >= 100){
+      if(pct) pct.textContent = '100%';
+      if(bar) bar.style.width = '100%';
+      setTimeout(hide, 400);
+      return;
+    }
+    var speed = prog < 60 ? 25 : prog < 85 ? 18 : prog < 95 ? 35 : 20;
+    prog += 1;
+    if(bar) bar.style.width = prog + '%';
+    if(pct) pct.textContent = prog + '%';
+    setTimeout(tick, speed);
+  }
+  
+  function hide(){
+    var el = document.getElementById('intro-screen');
+    if(el){ el.classList.add('hide'); setTimeout(function(){ el.style.display='none'; }, 650); }
+  }
+  
+  // Start after fonts load
+  if(document.readyState === 'complete'){ setTimeout(start, 300); }
+  else { window.addEventListener('load', function(){ setTimeout(start, 300); }); }
+})();
+</script>
+
+
+<div id="root">
+  <div class="flex-center">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="20" stroke="var(--accent2)" stroke-width="2.5"/>
+      <path d="M24 14v10l6 6" stroke="var(--accent2)" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <div class="spinner"></div>
+    <p style="color:var(--tx4);font-size:12px;font-family:'DM Sans',sans-serif">Loading...</p>
+  </div>
+</div>
+
+<button id="thm-btn" onclick="toggleTheme()">🌙</button>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,b=document.getElementById('thm-btn');
+  var d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');
+  b.textContent=d?'🌙':'☀️';
+  localStorage.setItem('_thm',d?'light':'dark');
+}
+(function(){
+  var t=localStorage.getItem('_thm')||'light';
+  document.documentElement.setAttribute('data-theme',t);
+  setTimeout(function(){
+    var b=document.getElementById('thm-btn');
+    if(b) b.textContent=t==='dark'?'☀️':'🌙';
+  },50);
+})();
+
+// Offline detection
+(function(){
+  function updateBanner(){
+    var b=document.getElementById('offline-banner');
+    if(!b)return;
+    if(!navigator.onLine){b.classList.add('show');}else{b.classList.remove('show');}
+  }
+  window.addEventListener('online',updateBanner);
+  window.addEventListener('offline',updateBanner);
+  updateBanner();
+})();
+
+</script>
+
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot,
+         collection, addDoc, query, orderBy, limit, where,
+         enableIndexedDbPersistence }
+                            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import React                from "https://esm.sh/react@18";
+import ReactDOM             from "https://esm.sh/react-dom@18/client";
+import * as XLSX            from "https://esm.sh/xlsx@0.18.5";
+
+const { useState, useEffect, useCallback, useRef } = React;
+const h = React.createElement;
+
+/* ── Firebase ── */
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyABLi7sL1uM9umqFnr4yQFKt9AYiI0ElJ0",
+  authDomain:        "attendance-15573.firebaseapp.com",
+  projectId:         "attendance-15573",
+  storageBucket:     "attendance-15573.firebasestorage.app",
+  messagingSenderId: "371714054691",
+  appId:             "1:371714054691:web:b7d15c9060114e9a63af96"
+};
+const CONFIGURED = !FIREBASE_CONFIG.apiKey.includes("YOUR");
+let db = null;
+if(CONFIGURED){
+  const app=initializeApp(FIREBASE_CONFIG);
+  db=getFirestore(app);
+  // Enable offline persistence (works with minimal/no internet)
+  enableIndexedDbPersistence(db).catch(e=>{
+    if(e.code==="failed-precondition") console.warn("Multiple tabs open — offline persistence limited");
+    else if(e.code==="unimplemented") console.warn("Browser doesn't support offline persistence");
+  });
+}
+
+
+
+/* ─── Saved Accounts (auto-fill) ─── */
+const ACC_KEY="_att_saved_accs";
+function getSavedAccs(){ try{return JSON.parse(localStorage.getItem(ACC_KEY)||"[]");}catch{return[];} }
+function saveAcc(username,password,name,avatar,role){
+  const accs=getSavedAccs().filter(a=>a.username!==username);
+  accs.unshift({username,password,name:name||username,avatar:avatar||"👤",role:role||""});
+  try{localStorage.setItem(ACC_KEY,JSON.stringify(accs.slice(0,6)));}catch{}
+}
+function clearSavedAcc(username){
+  const accs=getSavedAccs().filter(a=>a.username!==username);
+  try{localStorage.setItem(ACC_KEY,JSON.stringify(accs));}catch{}
+}
+
+/* ─── Audit Log ─── */
+const AUDIT_TYPES={
+  login:  {icon:"🔑",cls:"audit-login", label:"Login ဝင်"},
+  logout: {icon:"🚪",cls:"audit-login", label:"Logout ထွက်"},
+  addEmp: {icon:"➕",cls:"audit-add",   label:"ဝန်ထမ်း ထည့်"},
+  delEmp: {icon:"🗑️",cls:"audit-delete",label:"ဝန်ထမ်း ဖျက်"},
+  editEmp:{icon:"✏️",cls:"audit-edit",  label:"ဝန်ထမ်း ပြင်"},
+  resetDev:{icon:"🔄",cls:"audit-edit", label:"Device Reset"},
+  editGeo:{icon:"📍",cls:"audit-geo",   label:"Geofence ပြင်"},
+  chgPw:  {icon:"🔒",cls:"audit-edit",  label:"Password ပြောင်း"},
+  export: {icon:"📊",cls:"audit-login", label:"Export လုပ်"},
+};
+async function writeAudit(adminUser,type,detail){
+  if(!db)return;
+  try{
+    const entry={ts:Date.now(),admin:adminUser,type,detail};
+    // Use a simple array doc, prepend newest
+    const snap=await FS.get("logs/audit",{list:[]});
+    const list=[entry,...(snap.list||[])].slice(0,200); // keep last 200
+    await FS.set("logs/audit",{list});
+  }catch(e){console.warn("audit write failed",e);}
+}
+
+/* ─── Offline queue ─── */
+const Q_KEY = "_att_offline_q";
+function qGet(){ try{return JSON.parse(localStorage.getItem(Q_KEY)||"[]");}catch{return[];} }
+function qSet(q){ try{localStorage.setItem(Q_KEY,JSON.stringify(q));}catch{} }
+function qPush(p,v){ const q=qGet(); q.push({p,v,ts:Date.now()}); qSet(q); }
+function lsKey(p){ return "_att_"+p.replace("/","_"); }
+async function syncQueue(){
+  if(!db||!navigator.onLine)return;
+  const q=qGet(); if(!q.length)return;
+  for(const item of q){
+    try{ const[c,i]=item.p.split("/"); await setDoc(doc(db,c,i),item.v); }catch{}
+  }
+  qSet([]);
+}
+window.addEventListener("online",syncQueue);
+
+const FS = {
+  async get(p,d){
+    if(!db) return d;
+    try{
+      if(!navigator.onLine){
+        const cached=localStorage.getItem(lsKey(p));
+        return cached?JSON.parse(cached):d;
+      }
+      const[c,i]=p.split("/"); const s=await getDoc(doc(db,c,i));
+      const val=s.exists()?s.data():d;
+      try{localStorage.setItem(lsKey(p),JSON.stringify(val));}catch{}
+      return val;
+    }catch{
+      const cached=localStorage.getItem(lsKey(p));
+      return cached?JSON.parse(cached):d;
+    }
+  },
+  async set(p,v){
+    try{localStorage.setItem(lsKey(p),JSON.stringify(v));}catch{}
+    if(!db)return;
+    if(!navigator.onLine){ qPush(p,v); return; }
+    try{ const[c,i]=p.split("/"); await setDoc(doc(db,c,i),v); }catch{ qPush(p,v); }
+  },
+  listen(p,cb){
+    if(!db) return ()=>{};
+    const[c,i]=p.split("/");
+    return onSnapshot(doc(db,c,i),s=>{
+      if(s.exists()){
+        const v=s.data();
+        try{localStorage.setItem(lsKey(p),JSON.stringify(v));}catch{}
+        cb(v);
+      }
+    });
+  }
+};
+
+/* ── Device ID ── */
+function getDeviceId(){
+  let id=localStorage.getItem("_devid"); if(id) return id;
+  const raw=[navigator.userAgent,navigator.language,screen.colorDepth,screen.width+"x"+screen.height,new Date().getTimezoneOffset(),navigator.hardwareConcurrency||""].join("|");
+  let hv=0; for(let i=0;i<raw.length;i++){hv=((hv<<5)-hv+raw.charCodeAt(i))|0;}
+  id="D"+Math.abs(hv).toString(16).toUpperCase(); localStorage.setItem("_devid",id); return id;
+}
+
+/* ── Defaults ── */
+const DEF_EMPS=[
+  {id:"e1",username:"minmin", password:"1234",name:"မင်းမင်း",role:"Chef",   avatar:"👨‍🍳",deviceId:null,staffType:"external",windowIn:"08:00",windowOut:"17:00",windowBuf:30},
+  {id:"e2",username:"thuzar", password:"1234",name:"သူဇာ",   role:"Waiter", avatar:"🧑‍💼",deviceId:null,staffType:"livein",  windowIn:"09:00",windowOut:"18:00",windowBuf:30},
+  {id:"e3",username:"ayemyat",password:"1234",name:"အေးမြ",  role:"Cashier",avatar:"💁‍♀️",deviceId:null,staffType:"external",windowIn:"08:30",windowOut:"17:30",windowBuf:30},
+];
+/* staffType: "external" = Geofence required | "livein" = No geofence, window required */
+/* windowIn: earliest allowed check-in (HH:MM) | windowBuf: ± buffer minutes */
+const DEF_ADMIN={username:"admin",password:"admin123"};
+const DEF_GEO={lat:null,lng:null,radius:100,enabled:false};
+
+/* ── Helpers ── */
+const todayKey    =()=>new Date().toISOString().slice(0,10);
+const pad         =n=>String(n).padStart(2,"0");
+const dayKey      =(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
+const fmtTime     =ts=>ts?new Date(ts).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",hour12:true}):"—";
+const fmtDateMy   =d=>new Date(d+"T00:00:00").toLocaleDateString("my-MM",{weekday:"short",month:"short",day:"numeric"});
+const calcHours   =r=>{if(!r?.in||!r?.out)return null;const d=r.out-r.in;return`${Math.floor(d/3600000)}h ${Math.floor((d%3600000)/60000)}m`;};
+const calcMins    =r=>{if(!r?.in||!r?.out)return 0;return Math.round((r.out-r.in)/60000);};
+const daysInMonth =(y,m)=>new Date(y,m+1,0).getDate();
+const firstDOW    =(y,m)=>new Date(y,m,1).getDay();
+/* Check if current time is within employee's allowed window */
+const inWindow=(emp,type)=>{
+  if(!emp.windowIn||!emp.windowOut) return {ok:true};
+  const now=new Date();
+  const [ih,im]=(type==="in"?emp.windowIn:emp.windowOut).split(":").map(Number);
+  const buf=(emp.windowBuf||30);
+  const base=new Date(); base.setHours(ih,im,0,0);
+  const early=new Date(base.getTime()-buf*60000);
+  const late =new Date(base.getTime()+buf*60000);
+  if(now<early) return {ok:false,msg:`⏰ Check ${type==="in"?"In":"Out"} window မဆိုက်ရသေးပါ (${type==="in"?emp.windowIn:emp.windowOut} ± ${buf}မိနစ်)`};
+  if(now>late)  return {ok:false,msg:`⏰ Check ${type==="in"?"In":"Out"} window ကျော်သွားပြီ (${type==="in"?emp.windowIn:emp.windowOut} ± ${buf}မိနစ်)`};
+  return {ok:true};
+};
+const fmtWindow=(t,buf)=>{ if(!t)return"—"; const[h,m]=t.split(":").map(Number); const e=new Date();e.setHours(h,m-buf,0,0); const l=new Date();l.setHours(h,m+buf,0,0); return `${fmtTime(e.getTime())} – ${fmtTime(l.getTime())}`; };
+const haversine   =(a,b,c,d)=>{const R=6371000,dL=(c-a)*Math.PI/180,dO=(d-b)*Math.PI/180;const x=Math.sin(dL/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dO/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));};
+
+/* ── Clock Illustration ── */
+function ClockSVG(){
+  const[sec,setSec]=useState(new Date().getSeconds());
+  const[min,setMin]=useState(new Date().getMinutes());
+  const[hr,setHr]=useState(new Date().getHours()%12);
+  useEffect(()=>{const id=setInterval(()=>{const n=new Date();setSec(n.getSeconds());setMin(n.getMinutes());setHr(n.getHours()%12);},1000);return()=>clearInterval(id);},[]);
+  const sd=sec*6, md=min*6+sec*.1, hd=hr*30+min*.5;
+  const hand=(deg,len,w,col)=>h("line",{x1:60,y1:60,x2:60+len*Math.cos((deg-90)*Math.PI/180),y2:60+len*Math.sin((deg-90)*Math.PI/180),stroke:col,strokeWidth:w,strokeLinecap:"round"});
+  return h("div",{className:"clock-wrap"},
+    h("div",{className:"clock-shadow"}),
+    h("div",{className:"float-clk"},
+      h("svg",{width:110,height:120,viewBox:"0 0 120 130",fill:"none"},
+        /* Sleeve */
+        h("path",{d:"M38 95 Q33 110 42 126 L78 126 Q87 110 82 95 Z",fill:"rgba(255,255,255,0.2)",stroke:"rgba(255,255,255,0.3)",strokeWidth:1.5}),
+        h("path",{d:"M44 126 L76 126 L76 130 L44 130 Z",fill:"rgba(255,255,255,0.15)"}),
+        /* Hand */
+        h("ellipse",{cx:60,cy:88,rx:16,ry:12,fill:"rgba(255,255,255,0.85)",stroke:"rgba(255,255,255,0.4)",strokeWidth:1}),
+        /* Fingers */
+        ...[[-12,77],[-6,72],[0,70],[6,72],[12,77]].map(([dx,dy],i)=>
+          h("ellipse",{key:i,cx:60+dx,cy:dy+3,rx:3.5,ry:6,fill:"rgba(255,255,255,0.85)",stroke:"rgba(255,255,255,0.3)",strokeWidth:.8,transform:`rotate(${dx*1.5},${60+dx},${dy+3})`})
+        ),
+        /* Clock outer ring 3D */
+        h("circle",{cx:60,cy:52,r:40,fill:"none",stroke:"rgba(255,255,255,0.15)",strokeWidth:2.5}),
+        /* Clock face */
+        h("circle",{cx:60,cy:52,r:36,fill:"rgba(255,255,255,0.96)",stroke:"rgba(255,255,255,0.4)",strokeWidth:1.5}),
+        /* Shine */
+        h("path",{d:"M32 36 Q60 20 88 36",stroke:"rgba(255,255,255,0.5)",strokeWidth:2,fill:"none",strokeLinecap:"round"}),
+        /* Hour markers */
+        ...Array.from({length:12},(_,i)=>{
+          const a=(i*30-90)*Math.PI/180;
+          return h("line",{key:i,x1:60+33*Math.cos(a),y1:52+33*Math.sin(a),x2:60+(i%3===0?27:30)*Math.cos(a),y2:52+(i%3===0?27:30)*Math.sin(a),stroke:"rgba(37,99,235,0.5)",strokeWidth:i%3===0?2:1,strokeLinecap:"round"});
+        }),
+        /* Hands */
+        hand(hd,14,3,"#1e40af"),
+        hand(md,22,2.5,"#2563eb"),
+        hand(sd,26,1.5,"#ef4444"),
+        h("circle",{cx:60,cy:52,r:3,fill:"#2563eb"}),
+        h("circle",{cx:60,cy:52,r:1.5,fill:"white"})
+      )
+    )
+  );
+}
+
+/* ── SL ── */
+const SL=({c})=>h("p",{className:"section-label"},c);
+
+/* ── Btn ── */
+function Btn({children,cls="btn-blue",full,sm,xs,onClick,style:sx={}}){
+  return h("button",{className:`btn ${cls}${full?" btn-full":""}${sm?" btn-sm":""}${xs?" btn-xs":""}`,onClick,style:sx},children);
+}
+
+/* ── Field+Input ── */
+function Inp({label,type="text",...p}){
+  const[f,setF]=useState(false);
+  return h("div",{className:"field"},
+    label&&h("label",null,label),
+    h("input",{type,...p,className:"inp",
+      onFocus:e=>{setF(true);p.onFocus&&p.onFocus(e);},
+      onBlur:e=>{setF(false);p.onBlur&&p.onBlur(e);},
+      style:{boxShadow:f?"0 0 0 4px var(--asoft)":"none",...p.style}})
+  );
+}
+
+/* ── Toast ── */
+function Toast({t}){
+  if(!t) return null;
+  return h("div",{className:"toast"},h("div",{className:`toast-inner ${t.err?"toast-er":"toast-ok"}`},t.msg));
+}
+
+/* ── Calendar View ── */
+function CalView({records,empId,empName,empAvatar}){
+  const now=new Date();
+  const[yr,setYr]=useState(now.getFullYear());
+  const[mo,setMo]=useState(now.getMonth());
+  const[detail,setDetail]=useState(null);
+  const days=daysInMonth(yr,mo), start=firstDOW(yr,mo), today=todayKey();
+  const cells=[...Array(start).fill(null),...Array.from({length:days},(_,i)=>i+1)];
+  const prevMo=()=>{if(mo===0){setMo(11);setYr(y=>y-1);}else setMo(m=>m-1);};
+  const nextMo=()=>{const n=new Date();if(yr>n.getFullYear()||(yr===n.getFullYear()&&mo>=n.getMonth()))return;if(mo===11){setMo(0);setYr(y=>y+1);}else setMo(m=>m+1);};
+  const stOf=d=>{if(!d)return"e";const k=dayKey(yr,mo,d),r=(records[k]||{})[empId]||null;if(k>today)return"f";if(!r?.in)return"a";if(!r.out)return"p";return"d";};
+  const st={d:0,a:0,p:0};
+  for(let d=1;d<=days;d++){const k=dayKey(yr,mo,d);if(k>today)continue;const s=stOf(d);if(s in st)st[s]++;}
+  const DOW=["S","M","T","W","T","F","S"];
+  const SC={d:"cal-ok",p:"cal-pa",a:"cal-ab",f:"cal-future",e:"cal-empty"};
+  return h("div",{className:"card card-lg anim-pop"},
+    h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}},
+      h("button",{className:"btn btn-ghost btn-sm",onClick:prevMo,style:{padding:"6px 12px"}},"‹"),
+      h("div",{style:{textAlign:"center"}},
+        empAvatar&&h("div",{style:{fontSize:20,marginBottom:2}},empAvatar),
+        empName&&h("p",{style:{margin:0,fontWeight:700,fontSize:13,color:"var(--tx)"}},empName),
+        h("p",{style:{margin:0,color:"var(--accent)",fontWeight:600,fontSize:13}},
+          new Date(yr,mo).toLocaleDateString("en-GB",{year:"numeric",month:"long"}))
+      ),
+      h("button",{className:"btn btn-ghost btn-sm",onClick:nextMo,style:{padding:"6px 12px"}},"›")
+    ),
+    /* Stats */
+    h("div",{className:"cal-stat-row"},
+      h("div",{className:"cal-stat cal-stat-ok"},h("p",{style:{margin:0,fontSize:20,fontWeight:700,color:"var(--ok)",fontFamily:"'DM Mono',monospace"}},st.d),h("p",{style:{margin:"3px 0 0",fontSize:10,color:"var(--tx4)",fontWeight:600}},"Present")),
+      h("div",{className:"cal-stat cal-stat-wn"},h("p",{style:{margin:0,fontSize:20,fontWeight:700,color:"var(--wn)",fontFamily:"'DM Mono',monospace"}},st.p),h("p",{style:{margin:"3px 0 0",fontSize:10,color:"var(--tx4)",fontWeight:600}},"Partial")),
+      h("div",{className:"cal-stat cal-stat-er"},h("p",{style:{margin:0,fontSize:20,fontWeight:700,color:"var(--er)",fontFamily:"'DM Mono',monospace"}},st.a),h("p",{style:{margin:"3px 0 0",fontSize:10,color:"var(--tx4)",fontWeight:600}},"Absent"))
+    ),
+    /* DOW */
+    h("div",{className:"cal-head"},DOW.map((d,i)=>h("div",{key:i,className:"cal-dow"},d))),
+    /* Grid */
+    h("div",{className:"cal-grid"},
+      cells.map((d,i)=>{
+        const s=stOf(d),isToday=d&&dayKey(yr,mo,d)===today;
+        return h("div",{key:i,className:`cal-day ${SC[s]||""}${isToday?" cal-today":""}`,onClick:()=>{if(d&&s!=="f"&&s!=="e"){const k=dayKey(yr,mo,d);setDetail({k,rec:(records[k]||{})[empId]||null});}}},
+          h("span",{className:"cal-day-n"},d||""),
+          d&&s!=="f"&&s!=="e"&&!isToday&&h("div",{className:"cal-day-dot"})
+        );
+      })
+    ),
+    /* Legend */
+    h("div",{style:{display:"flex",gap:12,marginTop:12,justifyContent:"center"}},
+      [["var(--ok)","Present"],["var(--wn)","Partial"],["var(--er)","Absent"]].map(([c,l])=>
+        h("div",{key:l,style:{display:"flex",alignItems:"center",gap:5}},
+          h("div",{style:{width:7,height:7,borderRadius:"50%",background:c}}),
+          h("span",{style:{color:"var(--tx4)",fontSize:11}},l)
+        )
+      )
+    ),
+    /* Detail popup */
+    detail&&h("div",{style:{marginTop:14,padding:14,background:"var(--card2)",borderRadius:14,border:"1px solid var(--border)"}},
+      h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}},
+        h("p",{style:{margin:0,fontWeight:700,color:"var(--tx)"}},fmtDateMy(detail.k)),
+        h("button",{onClick:()=>setDetail(null),style:{background:"none",border:"none",color:"var(--tx3)",cursor:"pointer",fontSize:16}},"✕")
+      ),
+      detail.rec?.in?h("div",{className:"grid2"},
+        h("div",{style:{background:"var(--ok-bg)",borderRadius:12,padding:"10px 14px",border:"1px solid var(--ok-bd)"}},
+          h("p",{style:{margin:0,fontSize:10,color:"var(--ok)",letterSpacing:.6,fontFamily:"'DM Mono',monospace"}},"CHECK IN"),
+          h("p",{style:{margin:"5px 0 0",color:"var(--wn)",fontSize:18,fontWeight:700,fontFamily:"'DM Mono',monospace"}},fmtTime(detail.rec.in))
+        ),
+        h("div",{style:{background:detail.rec.out?"var(--er-bg)":"var(--card2)",borderRadius:12,padding:"10px 14px",border:`1px solid ${detail.rec.out?"var(--er-bd)":"var(--border)"}`}},
+          h("p",{style:{margin:0,fontSize:10,color:"var(--er)",letterSpacing:.6,fontFamily:"'DM Mono',monospace"}},"CHECK OUT"),
+          h("p",{style:{margin:"5px 0 0",color:detail.rec.out?"var(--ok)":"var(--tx4)",fontSize:18,fontWeight:700,fontFamily:"'DM Mono',monospace"}},detail.rec.out?fmtTime(detail.rec.out):"—")
+        ),
+        calcHours(detail.rec)&&h("div",{style:{gridColumn:"span 2",textAlign:"center",color:"var(--accent)",background:"var(--asoft)",borderRadius:10,padding:"8px",fontSize:13,fontWeight:600,marginTop:4}},
+          "⏱ ",calcHours(detail.rec)
+        )
+      ):h("p",{style:{color:"var(--er)",textAlign:"center",margin:"8px 0"}},"❌ မတက်ရောက်ပါ")
+    )
+  );
+}
+
+/* ── Geofence Tab ── */
+function GeoTab({geofence,onSave,toast}){
+  const[geo,setGeo]=useState(geofence);
+  const[loading,setL]=useState(false);
+  const[mLat,setMLat]=useState("");const[mLng,setMLng]=useState("");const[showM,setShowM]=useState(false);
+  useEffect(()=>setGeo(geofence),[geofence]);
+  const getGPS=()=>{setL(true);if(!navigator.geolocation){toast("Geolocation မရနိုင်","err");setL(false);return;}navigator.geolocation.getCurrentPosition(p=>{setGeo(g=>({...g,lat:p.coords.latitude,lng:p.coords.longitude}));setL(false);toast("✅ GPS တည်နေရာ ရယူပြီး");},err=>{setL(false);const m={1:"Location permission ပိတ်ထားသည်",2:"GPS signal မရ",3:"Timeout"};toast(m[err.code]||"Error","err");setShowM(true);},{timeout:10000,enableHighAccuracy:true,maximumAge:0});};
+  const setManual=()=>{const lat=parseFloat(mLat),lng=parseFloat(mLng);if(isNaN(lat)||isNaN(lng)){toast("Coordinates မှားသည်","err");return;}setGeo(g=>({...g,lat,lng}));toast("✅ သတ်မှတ်ပြီး");setShowM(false);};
+  const on=geo.enabled;
+  return h("div",{className:"card card-lg anim-pop"},
+    h(SL,{c:"📍 ဆိုင်တည်နေရာ Geofence"}),
+    h("div",{className:"notice-info"},h("p",{style:{margin:0,color:"var(--tx2)",fontSize:12,lineHeight:1.6}},"🔒 Geofence ဖွင့်ထားပါက ဆိုင်ရောက်မှသာ Check In/Out လုပ်ခွင့်ရမည်")),
+    h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 14px",background:"var(--card2)",borderRadius:14,border:"1px solid var(--border)",marginBottom:12}},
+      h("div",null,h("p",{style:{margin:0,fontWeight:600,color:"var(--tx)"}},`Geofence ${on?"ဖွင့်ထား":"ပိတ်ထား"}`),h("p",{style:{margin:"2px 0 0",color:"var(--tx3)",fontSize:11}},on?"ဆိုင်တွင်သာ":"မည်သည့်နေရာမှမဆို")),
+      h("button",{className:"toggle-track",onClick:()=>setGeo(g=>({...g,enabled:!g.enabled})),style:{background:on?"var(--accent)":"var(--border)"}},
+        h("div",{className:"toggle-thumb",style:{left:on?23:3}})
+      )
+    ),
+    on&&h(React.Fragment,null,
+      h(Btn,{cls:"btn-blue",full:true,onClick:getGPS,style:{marginBottom:10}},loading?"📍 ရယူနေသည်...":"📍 GPS မှ တည်နေရာ ရယူမည်"),
+      h("button",{onClick:()=>setShowM(v=>!v),className:"add-dash",style:{marginBottom:10}},`✏️ Coordinates ကိုယ်တိုင်ထည့်မည် ${showM?"▲":"▼"}`),
+      showM&&h("div",{className:"add-form",style:{marginBottom:10}},
+        h("p",{style:{margin:0,color:"var(--tx3)",fontSize:11}},"Google Maps → right-click → 'What's here?' → ကူးပါ"),
+        h("div",{className:"grid2"},
+          h(Inp,{label:"Latitude",placeholder:"ဥပမာ 16.8660",value:mLat,onChange:e=>setMLat(e.target.value),type:"number",step:"any"}),
+          h(Inp,{label:"Longitude",placeholder:"ဥပမာ 96.1951",value:mLng,onChange:e=>setMLng(e.target.value),type:"number",step:"any"})
+        ),
+        h(Btn,{cls:"btn-green",full:true,onClick:setManual},"သတ်မှတ်မည်")
+      ),
+      geo.lat&&h("div",{className:"notice-box notice-ok",style:{marginBottom:12}},
+        h("span",null,"✅"),
+        h("div",null,h("p",{style:{margin:0,fontWeight:600,fontSize:12,color:"var(--ok)"}},"တည်နေရာ သတ်မှတ်ပြီး"),h("p",{style:{margin:"2px 0 0",fontSize:10,color:"var(--tx3)",fontFamily:"'DM Mono',monospace"}},`${geo.lat.toFixed(6)}, ${geo.lng.toFixed(6)}`))
+      ),
+      h("div",{style:{marginBottom:14}},
+        h("label",{style:{fontSize:12,fontWeight:600,color:"var(--tx3)",display:"block",marginBottom:6}},`RADIUS: `,h("strong",{style:{color:"var(--accent)"}},`${geo.radius}m`)),
+        h("input",{type:"range",min:30,max:500,step:10,value:geo.radius,onChange:e=>setGeo(g=>({...g,radius:+e.target.value}))}),
+        h("div",{style:{display:"flex",justifyContent:"space-between",color:"var(--tx4)",fontSize:10,marginTop:3}},h("span",null,"30m"),h("span",null,"500m"))
+      )
+    ),
+    h(Btn,{cls:"btn-blue",full:true,onClick:()=>{if(on&&!geo.lat){toast("တည်နေရာ ဦးစွာ သတ်မှတ်ပါ","err");return;}onSave(geo);toast("✅ သိမ်းဆည်းပြီး");if(onAudit)onAudit("admin","editGeo",`Geofence ${geo.enabled?"ဖွင့်":"ပိတ်"} radius:${geo.radius}m`);}},"သိမ်းဆည်းမည်")
+  );
+}
+
+/* ── Export Tab ── */
+function ExportTab({employees,records,toast}){
+  const now=new Date();
+  const[yr,setYr]=useState(now.getFullYear());
+  const[mo,setMo]=useState(now.getMonth());
+  const days=daysInMonth(yr,mo);
+  const mn=new Date(yr,mo).toLocaleDateString("en-GB",{year:"numeric",month:"long"});
+  const build=()=>{
+    const hdr=["ဝန်ထမ်း","ရာထူး",...Array.from({length:days},(_,i)=>String(i+1)),"တက်","မတက်","တစ်ဝက်","ပျမ်းမျှ"];
+    const rows=[hdr];
+    employees.forEach(emp=>{
+      const row=[emp.name,emp.role];let p=0,a=0,pt=0,tm=0;
+      for(let d=1;d<=days;d++){const k=dayKey(yr,mo,d),r=(records[k]||{})[emp.id]||null;if(!r?.in){row.push("✗");a++;}else if(!r.out){row.push("½");pt++;tm+=calcMins(r);}else{row.push("✓");p++;tm+=calcMins(r);}}
+      const tot=p+pt;row.push(p,a,pt,tot>0?`${Math.floor(tm/tot/60)}h ${Math.floor(tm/tot%60)}m`:"");
+      rows.push(row);
+    });
+    return rows;
+  };
+  const doExport=()=>{
+    try{const wb=XLSX.utils.book_new();const ws=XLSX.utils.aoa_to_sheet(build());XLSX.utils.book_append_sheet(wb,ws,"Attendance");XLSX.writeFile(wb,`Attendance_${mn.replace(" ","_")}.xlsx`);toast("✅ Excel download ဆင်းပြီး");}catch(e){toast("Export မအောင်မြင်ပါ","err");}
+  };
+  return h("div",{className:"card card-lg anim-pop"},
+    h(SL,{c:"📊 Excel Export"}),
+    h("div",{className:"grid2",style:{marginBottom:14}},
+      h("div",null,h("label",{style:{fontSize:12,fontWeight:600,color:"var(--tx3)",display:"block",marginBottom:6}},"နှစ်"),h("select",{className:"inp",value:yr,onChange:e=>setYr(+e.target.value),style:{padding:"10px 14px"}},...[now.getFullYear()-1,now.getFullYear()].map(y=>h("option",{key:y,value:y},y)))),
+      h("div",null,h("label",{style:{fontSize:12,fontWeight:600,color:"var(--tx3)",display:"block",marginBottom:6}},"လ"),h("select",{className:"inp",value:mo,onChange:e=>setMo(+e.target.value),style:{padding:"10px 14px"}},...Array.from({length:12},(_,i)=>i).map(m=>h("option",{key:m,value:m},new Date(yr,m).toLocaleDateString("en-GB",{month:"long"})+(yr===now.getFullYear()&&m===now.getMonth()?" ★":"")))))
+    ),
+    h("div",{className:"info-row",style:{marginBottom:14}},
+      h("span",{style:{color:"var(--tx2)",fontSize:12}},"📅 ",h("strong",{style:{color:"var(--accent)"}},days)," ရက်"),
+      h("span",{style:{color:"var(--tx2)",fontSize:12}},"👥 ",h("strong",{style:{color:"var(--accent)"}},employees.length)," ဝန်ထမ်း")
+    ),
+    h(Btn,{cls:"btn-teal",full:true,onClick:doExport,style:{marginBottom:8}},`⬇️ ${mn} — Excel Download`),
+    h("p",{style:{margin:0,color:"var(--tx4)",fontSize:11,textAlign:"center"}},"Excel / Google Sheets ဖြင့် ဖွင့်နိုင်သည်"),
+  h("div",{style:{marginTop:10,padding:"12px 14px",background:"var(--card2)",borderRadius:14,border:"1px solid var(--border)"}}),
+  h("button",{className:"btn btn-ghost btn-full",style:{marginTop:10},onClick:()=>window.print()},
+    "🖨️ Print / PDF သိမ်းမည်"
+  )
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   COMMS MODULE — CHAT + WEBRTC VOICE CALLS
+   • Chat: Firestore + offline IndexedDB persistence
+   • Calls: WebRTC P2P (LAN) + Firebase signaling
+═══════════════════════════════════════════════════ */
+
+/* ── Group Chat Hook ── */
+function useGroupChat(active){
+  const[msgs,setMsgs]=useState([]);
+  useEffect(()=>{
+    if(!active||!db)return;
+    const q=query(collection(db,"groupchat"),orderBy("ts","asc"),limit(120));
+    // includeMetadataChanges=true → show pending (offline) messages immediately
+    return onSnapshot(q,{includeMetadataChanges:true},snap=>{
+      setMsgs(snap.docs.map(d=>({id:d.id,...d.data(),_pending:d.metadata.hasPendingWrites})));
+    });
+  },[active]);
+  const send=useCallback(async(emp,text)=>{
+    if(!text.trim())return false;
+    const msg={fromId:emp.id,fromName:emp.name,fromAvatar:emp.avatar,text:text.trim(),ts:Date.now()};
+    if(db){
+      await addDoc(collection(db,"groupchat"),msg); // queues offline automatically
+    } else {
+      // Pure offline fallback (no Firebase configured)
+      setMsgs(m=>[...m,{...msg,id:"lo_"+Date.now(),_pending:true}]);
+    }
+    return true;
+  },[]);
+  return{msgs,send};
+}
+
+/* ── WebRTC Voice Call Hook ── */
+const RTC_CFG={iceServers:[
+  {urls:["stun:stun1.l.google.com:19302","stun:stun2.l.google.com:19302"]},
+  // LAN: also tries direct local IP → works without internet once signaled
+]};
+
+function useCall(myEmp){
+  const[cst,setCst]=useState(null); // {phase:'incoming'|'calling'|'active', callId, callerName...}
+  const pcRef=useRef(null);
+  const locRef=useRef(null);
+  const audioRef=useRef(null); // <audio> element for remote audio
+  const unsubsRef=useRef([]);
+  const cidRef=useRef(null);
+
+  /* Listen for incoming calls */
+  useEffect(()=>{
+    if(!myEmp||!db)return;
+    const q=query(collection(db,"calls"),where("calleeId","==",myEmp.id),where("status","==","ringing"));
+    return onSnapshot(q,snap=>{
+      if(!snap.empty){
+        const d=snap.docs[0];
+        setCst(s=>s?s:{phase:"incoming",callId:d.id,...d.data()});
+      }
+    });
+  },[myEmp?.id]);
+
+  const _cleanup=useCallback(async(callId)=>{
+    unsubsRef.current.forEach(u=>u&&u());unsubsRef.current=[];
+    if(locRef.current){locRef.current.getTracks().forEach(t=>t.stop());locRef.current=null;}
+    if(pcRef.current){pcRef.current.close();pcRef.current=null;}
+    if(audioRef.current){audioRef.current.srcObject=null;}
+    const cid=callId||cidRef.current;
+    if(cid&&db){try{await setDoc(doc(db,"calls",cid),{status:"ended"},{merge:true});}catch{}}
+    cidRef.current=null;setCst(null);
+  },[]);
+
+  const startCall=useCallback(async(targetEmp)=>{
+    if(!db||!myEmp)return;
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+      locRef.current=stream;
+      const pc=new RTCPeerConnection(RTC_CFG);pcRef.current=pc;
+      stream.getTracks().forEach(t=>pc.addTrack(t,stream));
+      pc.ontrack=e=>{if(audioRef.current){audioRef.current.srcObject=e.streams[0];audioRef.current.play().catch(()=>{});}};
+      const callRef=doc(collection(db,"calls"));
+      cidRef.current=callRef.id;
+      pc.onicecandidate=async e=>{
+        if(e.candidate)await addDoc(collection(db,"calls",callRef.id,"callerIce"),e.candidate.toJSON());
+      };
+      const offer=await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      await setDoc(callRef,{
+        callerId:myEmp.id,callerName:myEmp.name,callerAvatar:myEmp.avatar,
+        calleeId:targetEmp.id,calleeName:targetEmp.name,calleeAvatar:targetEmp.avatar,
+        offer:{type:offer.type,sdp:offer.sdp},status:"ringing",ts:Date.now()
+      });
+      setCst({phase:"calling",callId:callRef.id,calleeName:targetEmp.name,calleeAvatar:targetEmp.avatar});
+      const u1=onSnapshot(callRef,async snap=>{
+        const d=snap.data();
+        if(d?.answer&&pc.currentRemoteDescription===null){
+          await pc.setRemoteDescription(new RTCSessionDescription(d.answer));
+          setCst(s=>({...s,phase:"active"}));
+        }
+        if(d?.status==="ended")_cleanup(callRef.id);
+      });
+      const u2=onSnapshot(collection(db,"calls",callRef.id,"calleeIce"),snap=>{
+        snap.docChanges().forEach(ch=>{
+          if(ch.type==="added")pc.addIceCandidate(new RTCIceCandidate(ch.doc.data())).catch(()=>{});
+        });
+      });
+      unsubsRef.current=[u1,u2];
+    }catch(e){console.error("call error",e);_cleanup();}
+  },[myEmp]);
+
+  const answerCall=useCallback(async()=>{
+    if(!cst||cst.phase!=="incoming"||!db)return;
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+      locRef.current=stream;
+      const pc=new RTCPeerConnection(RTC_CFG);pcRef.current=pc;
+      stream.getTracks().forEach(t=>pc.addTrack(t,stream));
+      pc.ontrack=e=>{if(audioRef.current){audioRef.current.srcObject=e.streams[0];audioRef.current.play().catch(()=>{});}};
+      cidRef.current=cst.callId;
+      pc.onicecandidate=async e=>{
+        if(e.candidate)await addDoc(collection(db,"calls",cst.callId,"calleeIce"),e.candidate.toJSON());
+      };
+      const snap=await getDoc(doc(db,"calls",cst.callId));
+      await pc.setRemoteDescription(new RTCSessionDescription(snap.data().offer));
+      const ans=await pc.createAnswer();
+      await pc.setLocalDescription(ans);
+      await setDoc(doc(db,"calls",cst.callId),{answer:{type:ans.type,sdp:ans.sdp},status:"active"},{merge:true});
+      setCst(s=>({...s,phase:"active"}));
+      const u1=onSnapshot(collection(db,"calls",cst.callId,"callerIce"),snap=>{
+        snap.docChanges().forEach(ch=>{
+          if(ch.type==="added")pc.addIceCandidate(new RTCIceCandidate(ch.doc.data())).catch(()=>{});
+        });
+      });
+      const u2=onSnapshot(doc(db,"calls",cst.callId),snap=>{
+        if(snap.data()?.status==="ended")_cleanup(cst.callId);
+      });
+      unsubsRef.current=[u1,u2];
+    }catch(e){console.error("answer error",e);_cleanup();}
+  },[cst]);
+
+  const rejectCall=useCallback(async()=>{
+    const cid=cst?.callId;setCst(null);
+    if(cid&&db){try{await setDoc(doc(db,"calls",cid),{status:"ended"},{merge:true});}catch{}}
+  },[cst]);
+
+  const hangup=useCallback(()=>_cleanup(),[_cleanup]);
+
+  return{cst,startCall,answerCall,rejectCall,hangup,audioRef};
+}
+
+/* ── Chat Panel ── */
+function ChatPanel({myEmp,onClose}){
+  const{msgs,send}=useGroupChat(true);
+  const[text,setText]=useState("");
+  const endRef=useRef(null);
+  useEffect(()=>{endRef.current?.scrollIntoView({behavior:"smooth"});},[msgs.length]);
+  const doSend=async()=>{if(!text.trim())return;const ok=await send(myEmp,text);if(ok)setText("");};
+  const fmtTs=ts=>new Date(ts).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",hour12:true});
+  return h("div",{style:{display:"flex",flexDirection:"column",height:"100%"}},
+    h("div",{className:"comms-header"},
+      h("span",{style:{fontSize:18}},"💬"),
+      h("p",{style:{margin:0,fontWeight:700,fontSize:14,color:"var(--tx)",flex:1}},"Staff Group Chat"),
+      !db&&h("span",{className:"badge badge-wn",style:{fontSize:10,padding:"2px 8px"}},"Firebase မရ"),
+      h("button",{onClick:onClose,style:{background:"none",border:"none",fontSize:20,cursor:"pointer",color:"var(--tx3)",lineHeight:1,padding:4}},"✕")
+    ),
+    h("div",{className:"chat-list"},
+      msgs.length===0&&h("p",{style:{color:"var(--tx4)",textAlign:"center",fontSize:12,padding:"24px 0"}},"Message မရှိသေးပါ 👋"),
+      ...msgs.map(m=>{
+        const me=m.fromId===myEmp.id;
+        return h("div",{key:m.id,className:`chat-bubble-wrap${me?" chat-me":""}`},
+          !me&&h("div",{className:"chat-ava"},m.fromAvatar||"👤"),
+          h("div",{style:{maxWidth:"74%"}},
+            !me&&h("p",{className:"chat-name"},m.fromName),
+            h("div",{className:`chat-bubble ${me?"chat-bubble-me":"chat-bubble-them"}`},m.text),
+            h("p",{className:"chat-ts",style:{textAlign:me?"right":"left"}},
+              fmtTs(m.ts),m._pending?" ⏳ Sending...":""
+            )
+          )
+        );
+      }),
+      h("div",{ref:endRef})
+    ),
+    h("div",{className:"chat-input-row"},
+      h("input",{
+        className:"inp",style:{flex:1,padding:"11px 14px",fontSize:13,borderRadius:14},
+        placeholder:db?"Message ရိုက်ပါ...":"Firebase မရ — Chat အသုံးမပြုနိုင်",
+        disabled:!db,value:text,
+        onChange:e=>setText(e.target.value),
+        onKeyDown:e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();doSend();}}
+      }),
+      h("button",{onClick:doSend,className:"chat-send-btn",disabled:!db},"➤")
+    )
+  );
+}
+
+/* ── Call Panel ── */
+function CallPanel2({myEmp,employees,callHook,onClose}){
+  const{cst,startCall,answerCall,rejectCall,hangup}=callHook;
+  const others=employees.filter(e=>e.id!==myEmp.id);
+  const[elapsed,setElapsed]=useState(0);
+  const startTs=useRef(null);
+  useEffect(()=>{
+    if(cst?.phase==="active"){startTs.current=startTs.current||Date.now();const id=setInterval(()=>setElapsed(Math.floor((Date.now()-startTs.current)/1000)),1000);return()=>clearInterval(id);}
+    else{startTs.current=null;setElapsed(0);}
+  },[cst?.phase]);
+  const fmtElapsed=s=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
+
+  if(cst?.phase==="incoming")return h("div",{className:"call-sheet-body"},
+    h("div",{style:{textAlign:"center",padding:"20px"}},
+      h("p",{style:{fontSize:12,color:"var(--tx3)",margin:"0 0 12px",fontWeight:600,letterSpacing:1,textTransform:"uppercase"}},"Incoming Call"),
+      h("div",{style:{fontSize:52,margin:"0 0 10px"}},(()=>{const c=employees.find(e=>e.id===cst.callerId);return c?.avatar||"👤";})()),
+      h("p",{style:{fontWeight:700,fontSize:20,color:"var(--tx)",margin:"0 0 4px"}},cst.callerName),
+      h("p",{style:{fontSize:12,color:"var(--tx4)",margin:"0 0 32px"}},"VoIP ဖုန်းခေါ်နေသည်..."),
+      h("div",{style:{display:"flex",gap:28,justifyContent:"center"}},
+        h("div",{style:{textAlign:"center"}},h("button",{onClick:rejectCall,className:"call-btn call-btn-end"},"📵"),h("p",{style:{fontSize:11,color:"var(--er)",marginTop:8}},"ငြင်းပယ်")),
+        h("div",{style:{textAlign:"center"}},h("button",{onClick:answerCall,className:"call-btn call-btn-ans"},"📞"),h("p",{style:{fontSize:11,color:"var(--ok)",marginTop:8}},"ဖြေဆိုမည်"))
+      )
+    )
+  );
+
+  if(cst?.phase==="calling"||cst?.phase==="active")return h("div",{className:"call-sheet-body"},
+    h("div",{style:{textAlign:"center",padding:"20px"}},
+      h("div",{style:{fontSize:52,margin:"0 0 10px"}},(()=>{const c=employees.find(e=>e.id===cst.calleeId||cst.calleeName===e.name);return c?.avatar||"👤";})()),
+      h("p",{style:{fontWeight:700,fontSize:20,color:"var(--tx)",margin:"0 0 8px"}},cst.calleeName),
+      cst.phase==="active"
+        ?h("p",{style:{color:"var(--ok)",fontSize:14,fontWeight:600,margin:"0 0 8px"}},"✅ ဆက်သွယ်ပြီး")
+        :h("p",{style:{color:"var(--tx3)",fontSize:13,margin:"0 0 8px"}},"⏳ ဆက်သွယ်နေသည်..."),
+      cst.phase==="active"&&h("p",{style:{color:"var(--accent)",fontFamily:"'DM Mono',monospace",fontSize:18,fontWeight:700,margin:"0 0 28px"}},fmtElapsed(elapsed)),
+      h("div",{style:{textAlign:"center"}},
+        h("button",{onClick:hangup,className:"call-btn call-btn-end"},"📵"),
+        h("p",{style:{fontSize:11,color:"var(--er)",marginTop:8}},"ဖုန်းချမည်")
+      )
+    )
+  );
+
+  // Staff list
+  return h("div",{style:{height:"100%",display:"flex",flexDirection:"column"}},
+    h("div",{className:"comms-header"},
+      h("span",{style:{fontSize:18}},"📞"),
+      h("p",{style:{margin:0,fontWeight:700,fontSize:14,color:"var(--tx)",flex:1}},"VoIP Call"),
+      h("button",{onClick:onClose,style:{background:"none",border:"none",fontSize:20,cursor:"pointer",color:"var(--tx3)",lineHeight:1,padding:4}},"✕")
+    ),
+    h("div",{style:{flex:1,overflowY:"auto",padding:"10px 14px"}},
+      !db&&h("div",{className:"notice-box notice-wn",style:{marginBottom:10}},
+        h("span",null,"⚠️"),
+        h("div",null,h("p",{style:{margin:0,fontSize:12,color:"var(--wn)",fontWeight:600}},"Firebase မသွင်းရသေးပါ"),
+        h("p",{style:{margin:"2px 0 0",fontSize:11,color:"var(--tx3)"}},"Call feature အတွက် Firebase config လိုအပ်သည်"))
+      ),
+      others.length===0&&h("p",{style:{color:"var(--tx4)",fontSize:12,textAlign:"center",padding:24}},"တစ်ခြား ဝန်ထမ်း မရှိသေးပါ"),
+      ...others.map(emp=>
+        h("div",{key:emp.id,className:"hist-row",style:{cursor:db?"pointer":"not-allowed",opacity:db?1:.5},
+          onClick:()=>db&&startCall(emp)},
+          h("div",{style:{width:44,height:44,borderRadius:13,background:"var(--asoft)",border:"1px solid var(--border2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}},emp.avatar),
+          h("div",{style:{flex:1}},
+            h("p",{style:{margin:0,fontWeight:600,fontSize:14,color:"var(--tx)"}},emp.name),
+            h("p",{style:{margin:"2px 0 0",fontSize:11,color:"var(--tx4)"}},emp.role)
+          ),
+          h("button",{style:{background:"linear-gradient(135deg,#16a34a,#22c55e)",border:"none",borderRadius:12,width:40,height:40,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,cursor:"pointer",pointerEvents:"none"}},"📞")
+        )
+      )
+    )
+  );
+}
+
+/* ── CommsSheet (bottom slide-up panel) ── */
+function CommsSheet({myEmp,employees,visible,onClose,callHook}){
+  const[tab,setTab]=useState("chat");
+  if(!visible)return null;
+  return h("div",{style:{position:"fixed",inset:0,zIndex:8000}},
+    h("div",{onClick:onClose,style:{position:"absolute",inset:0,background:"rgba(0,0,0,0.45)",backdropFilter:"blur(3px)"}}),
+    h("div",{className:"comms-sheet"},
+      h("div",{style:{width:38,height:4,borderRadius:2,background:"var(--border2)",margin:"10px auto 0",flexShrink:0}}),
+      h("div",{className:"tabs",style:{margin:"10px 14px 0",flexShrink:0}},
+        h("button",{className:`tab-btn${tab==="chat"?" active":""}`,onClick:()=>setTab("chat")},"💬 Chat"),
+        h("button",{className:`tab-btn${tab==="call"?" active":""}`,onClick:()=>setTab("call")},"📞 Call")
+      ),
+      h("div",{style:{flex:1,overflow:"hidden",display:"flex",flexDirection:"column",minHeight:0}},
+        tab==="chat"
+          ?h(ChatPanel,{myEmp,onClose})
+          :h(CallPanel2,{myEmp,employees,callHook,onClose})
+      )
+    )
+  );
+}
+
+/* ── Incoming Call Banner (shows even when sheet closed) ── */
+function IncomingCallBanner({callHook,onOpen}){
+  const{cst,answerCall,rejectCall}=callHook;
+  if(cst?.phase!=="incoming")return null;
+  return h("div",{className:"incoming-call-banner"},
+    h("span",{style:{fontSize:26,animation:"glow 1s ease-in-out infinite"}},"📞"),
+    h("div",{style:{flex:1}},
+      h("p",{style:{margin:0,fontWeight:700,color:"#fff",fontSize:14}},cst.callerName),
+      h("p",{style:{margin:0,color:"rgba(255,255,255,0.75)",fontSize:11}},"VoIP ဖုန်းခေါ်နေသည်...")
+    ),
+    h("button",{onClick:rejectCall,style:{width:46,height:46,borderRadius:"50%",background:"#ef4444",border:"2px solid rgba(255,255,255,0.3)",fontSize:18,cursor:"pointer"}},"📵"),
+    h("button",{onClick:()=>{answerCall();onOpen();},style:{width:46,height:46,borderRadius:"50%",background:"rgba(255,255,255,0.2)",border:"2px solid rgba(255,255,255,0.6)",fontSize:18,cursor:"pointer"}},"📞")
+  );
+}
+
+/* ── LOGIN ── */
+function Login({employees,admin,onLogin,onSaveEmps,onAudit}){
+  const[u,setU]=useState("");const[pw,setPw]=useState("");const[showP,setShowP]=useState(false);const[err,setErr]=useState("");const[busy,setBusy]=useState(false);const[shk,setShk]=useState(false);
+  const[recovery,setRecovery]=useState(false);
+  const[recCode,setRecCode]=useState("");const[newPw,setNewPw]=useState("");const[recOk,setRecOk]=useState(false);
+  const[savedAccs]=useState(()=>getSavedAccs());
+  /* Master recovery code = first 8 chars of Firebase projectId (static, owner only knows) */
+  const MASTER=FIREBASE_CONFIG.projectId.slice(0,8).toUpperCase();
+  const go=async()=>{
+    setErr("");if(!u.trim()||!pw){setErr("Username နှင့် Password ဖြည့်ပါ");return;}
+    setBusy(true);await new Promise(r=>setTimeout(r,280));
+    if(u.trim()===admin.username&&pw===admin.password){onLogin("admin",null);setBusy(false);return;}
+    const emp=employees.find(e=>e.username===u.trim()&&e.password===pw);
+    if(!emp){setErr("Username သို့မဟုတ် Password မှားနေသည်");setShk(true);setTimeout(()=>setShk(false),500);setBusy(false);return;}
+    const dev=getDeviceId();
+    if(!emp.deviceId){const updated=employees.map(e=>e.id===emp.id?{...e,deviceId:dev}:e);onSaveEmps(updated);saveAcc(emp.username,emp.password,emp.name,emp.avatar,emp.role);if(onAudit)onAudit(emp.username,"login","Employee login (new device)");onLogin("emp",{...emp,deviceId:dev});setBusy(false);return;}
+    if(emp.deviceId!==dev){setErr("🚫 ဤ account သည် တစ်ခြား device နှင့်ချိတ်ဆက်ပြီးဖြစ်သည်");setShk(true);setTimeout(()=>setShk(false),500);setBusy(false);return;}
+    saveAcc(emp.username,emp.password,emp.name,emp.avatar,emp.role);if(onAudit)onAudit(emp.username,"login","Employee login");onLogin("emp",emp);setBusy(false);
+  };
+  return h("div",{className:"page anim-fade"},
+    /* Hero */
+    h("div",{className:"hero anim-pop"},
+      h("div",{className:"hero-orb hero-orb-1"}),h("div",{className:"hero-orb hero-orb-2"}),
+      h("div",{style:{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8}},
+        h("div",{style:{flex:1,paddingTop:6}},
+          h("p",{style:{margin:"0 0 4px",color:"rgba(255,255,255,0.65)",fontSize:13}},"မင်္ဂလာပါ 👋"),
+          h("h1",{style:{margin:"0 0 10px",fontFamily:"'DM Sans',sans-serif",fontSize:24,fontWeight:700,color:"#fff",lineHeight:1.3}},"Track check-ins\n& work hours"),
+          h("p",{style:{margin:0,color:"rgba(255,255,255,0.6)",fontSize:13,lineHeight:1.5}},"မိမိ phone မှသာ\nlogin ဝင်ပါ")
+        ),
+        h(ClockSVG)
+      )
+    ),
+    /* Saved accounts quick-tap */
+    savedAccs.length>0&&h("div",{className:"card anim-pop1"},
+      h("p",{style:{margin:"0 0 10px",fontSize:12,fontWeight:600,color:"var(--tx3)"}},"💾 မှတ်ထားသော Accounts"),
+      h("div",{className:"saved-acc-row"},
+        ...savedAccs.map(acc=>
+          h("div",{key:acc.username,className:"saved-acc-btn",onClick:()=>{setU(acc.username);setPw(acc.password);}},
+            h("div",{className:"saved-acc-ava"},acc.avatar),
+            h("div",null,
+              h("p",{className:"saved-acc-name"},acc.name),
+              h("p",{className:"saved-acc-role"},acc.role||acc.username)
+            )
+          )
+        )
+      ),
+      h("button",{onClick:()=>{localStorage.removeItem(ACC_KEY);window.location.reload();},style:{background:"none",border:"none",color:"var(--tx4)",fontSize:11,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}},"🗑 Saved accounts ရှင်းမည်")
+    ),
+    /* Form */
+    h("div",{className:`card card-lg anim-pop${savedAccs.length>0?"2":"1"}${shk?" shake":""}`,style:{display:"flex",flexDirection:"column",gap:14}},
+      h("h2",{style:{margin:0,fontFamily:"'DM Sans',sans-serif",fontSize:18,fontWeight:700,color:"var(--tx)"}},"Login ဝင်ပါ"),
+      h(Inp,{label:"Username",placeholder:"username ထည့်ပါ",value:u,onChange:e=>setU(e.target.value),autoCapitalize:"none",autoCorrect:"off"}),
+      h("div",{style:{position:"relative"}},
+        h(Inp,{label:"Password",type:showP?"text":"password",placeholder:"password ထည့်ပါ",value:pw,onChange:e=>setPw(e.target.value),onKeyDown:e=>e.key==="Enter"&&go(),style:{paddingRight:44}}),
+        h("button",{onClick:()=>setShowP(v=>!v),style:{position:"absolute",right:14,bottom:13,background:"none",border:"none",color:"var(--tx4)",cursor:"pointer",fontSize:15}},showP?"🙈":"👁️")
+      ),
+      err&&h("p",{style:{margin:0,color:"var(--er)",fontSize:13,textAlign:"center"}},err),
+      h(Btn,{cls:"btn-blue",full:true,onClick:go},busy?h("span",null,"⏳ Logging in..."):"⏰ Login ဝင်မည်"),
+      h("button",{onClick:()=>{setRecovery(v=>!v);setRecOk(false);},style:{background:"none",border:"none",color:"var(--tx4)",fontSize:12,cursor:"pointer",fontFamily:"'DM Sans',sans-serif",marginTop:4,textAlign:"center",width:"100%"}},
+        recovery?"▲ ပိတ်မည်":"🔑 Admin password မေ့သွားပါသလား?")
+    ),
+    /* Recovery form */
+    recovery&&h("div",{className:"card anim-pop"},
+      recOk
+        ? h("div",{className:"recovery-success"},
+            h("p",{style:{margin:0,fontSize:20}},"✅"),
+            h("p",{style:{margin:"8px 0 0",fontWeight:700,fontSize:15,color:"var(--ok)"}},"Password ပြောင်းပြီးပါပြီ"),
+            h("p",{style:{margin:"4px 0 0",fontSize:12,color:"var(--tx3)"}},"အသစ် password ဖြင့် login ဝင်ပါ"),
+            h(Btn,{cls:"btn-green",full:true,onClick:()=>{setRecovery(false);setRecOk(false);},style:{marginTop:10}},"Login ပြန်ဝင်မည်")
+          )
+        : h("div",{className:"recovery-box"},
+            h("p",{style:{margin:0,fontWeight:700,fontSize:14,color:"var(--er)"}},"🔑 Admin Password Recovery"),
+            h("p",{style:{margin:"4px 0 8px",fontSize:12,color:"var(--tx3)",lineHeight:1.5}},
+              `Recovery code သည် Firebase Project ID ၏ ပထမ ၈ လုံး ဖြစ်သည်။
+ဆိုင်ပိုင်ရှင်သာ ဤ code ကို သိရမည်။`
+            ),
+            h(Inp,{label:"Recovery Code",placeholder:"xxxxxxxx (8 chars)",value:recCode,onChange:e=>setRecCode(e.target.value.toUpperCase()),style:{fontFamily:"'DM Mono',monospace",letterSpacing:2,textTransform:"uppercase"}}),
+            h(Inp,{label:"Password အသစ် (6 လုံးနှင့်အထက်)",type:"password",placeholder:"••••••••",value:newPw,onChange:e=>setNewPw(e.target.value)}),
+            h(Btn,{cls:"btn-red",full:true,onClick:async()=>{
+              if(recCode!==MASTER){setErr("Recovery code မှားနေသည်");setShk(true);setTimeout(()=>setShk(false),500);return;}
+              if(newPw.length<6){setErr("Password အနည်းဆုံး ၆ လုံး ထည့်ပါ");return;}
+              // Save new password
+              const newAdmin={...admin,password:newPw};
+              await FS.set("config/admin",newAdmin);
+              setRecOk(true);setErr("");
+            }},"Password ပြောင်းမည်")
+          )
+    ),
+
+  );
+}
+
+/* ── EMP DASH ── */
+function EmpDash({emp,employees,records,geofence,onIn,onOut,loading,locMsg,onLogout}){
+  const[tab,setTab]=useState("home");
+  const[selfieMode,setSelfieMode]=useState(null); // null | "in" | "out"
+  const[commsOpen,setCommsOpen]=useState(false);
+  const videoRef=React.useRef(null);
+  const canvasRef=React.useRef(null);
+  const streamRef=React.useRef(null);
+  const callHook=useCall(emp);
+  const rec=(records[todayKey()]||{})[emp.id]||null;
+  const isIn=rec?.in&&!rec?.out, done=rec?.in&&rec?.out;
+  // Hidden audio element for remote call audio
+  const remAudio=h("audio",{ref:callHook.audioRef,autoPlay:true,style:{display:"none"}});
+
+  // Start camera when selfieMode set
+  useEffect(()=>{
+    if(!selfieMode){if(streamRef.current){streamRef.current.getTracks().forEach(t=>t.stop());streamRef.current=null;}return;}
+    navigator.mediaDevices&&navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:false}).then(s=>{streamRef.current=s;if(videoRef.current){videoRef.current.srcObject=s;videoRef.current.play();}}).catch(()=>{ setSelfieMode(null); if(selfieMode==="in")onIn(null); else onOut(null); });
+    return()=>{if(streamRef.current){streamRef.current.getTracks().forEach(t=>t.stop());streamRef.current=null;}};
+  },[selfieMode]);
+
+  const captureAndCheckIn=()=>{
+    let photo=null;
+    try{
+      const canvas=canvasRef.current,video=videoRef.current;
+      if(canvas&&video){canvas.width=video.videoWidth||320;canvas.height=video.videoHeight||240;canvas.getContext("2d").drawImage(video,0,0);photo=canvas.toDataURL("image/jpeg",.5);}
+    }catch{}
+    if(selfieMode==="in") onIn(photo); else onOut(photo);
+    setSelfieMode(null);
+  };
+  const histRows=[
+    {date:fmtDateMy(todayKey()),time:rec?.in?`${fmtTime(rec.in)} – ${rec.out?fmtTime(rec.out):"ongoing"}`:"No record",status:rec?.in?(done?"Early":"Working"):"Absent"},
+    {date:"Yesterday",time:"7:30 AM – 4:00 PM",status:"Early"},
+    {date:"Mon, 24 Mar",time:"8:45 AM – 5:00 PM",status:"Late"},
+    {date:"Sun, 23 Mar",time:"7:30 AM – 3:00 PM",status:"Early"},
+  ];
+  return h("div",{className:"page"},
+    remAudio,
+    /* Comms: Incoming call banner (shows even when sheet is closed) */
+    h(IncomingCallBanner,{callHook,onOpen:()=>setCommsOpen(true)}),
+    /* Comms: Bottom sheet */
+    h(CommsSheet,{myEmp:emp,employees,visible:commsOpen,onClose:()=>setCommsOpen(false),callHook}),
+    /* Comms FAB button */
+    h("button",{className:"comms-fab",onClick:()=>setCommsOpen(true),title:"Chat & VoIP Call"},
+      "💬",
+      callHook.cst?.phase==="incoming"&&h("div",{className:"comms-fab-badge"},"!")
+    ),
+    /* Profile */
+    h("div",{className:"profile-card anim-pop"},
+      h("div",{className:"profile-ava"},emp.avatar),
+      h("div",{style:{flex:1}},
+        h("h2",{style:{margin:0,fontFamily:"'DM Sans',sans-serif",fontSize:17,fontWeight:700,color:"var(--tx)"}},emp.name),
+        h("p",{style:{margin:"3px 0 0",color:"var(--tx3)",fontSize:12}},emp.role)
+      ),
+      h("button",{onClick:onLogout,className:"btn btn-ghost btn-sm"},"Logout")
+    ),
+    /* Hero */
+    h("div",{className:"hero anim-pop1"},
+      h("div",{className:"hero-orb hero-orb-1"}),h("div",{className:"hero-orb hero-orb-2"}),
+      h("div",{style:{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8}},
+        h("div",{style:{flex:1,paddingTop:4}},
+          h("p",{style:{margin:"0 0 4px",color:"rgba(255,255,255,0.6)",fontSize:12}},fmtDateMy(todayKey())),
+          h("h2",{style:{margin:"0 0 14px",fontFamily:"'DM Sans',sans-serif",fontSize:20,fontWeight:700,color:"#fff"}},"ယနေ့ Attendance"),
+          done
+            ?h("div",{className:"btn-clockin btn-clockin-done"},"✅ ယနေ့ ပြီးပါပြီ")
+            :!isIn
+            ?h("button",{className:"btn-clockin btn-clockin-in",onClick:()=>setSelfieMode("in")},"📸 Clock In")
+            :h("button",{className:"btn-clockin btn-clockin-out",onClick:()=>setSelfieMode("out")},"📸 Clock Out")
+        ),
+        h(ClockSVG)
+      )
+    ),
+    /* Window info bar */
+    (()=>{
+      const e=emp; if(!e||!e.windowIn) return null;
+      const now=new Date();
+      const [ih,im]=e.windowIn.split(":").map(Number);
+      const buf=e.windowBuf||30;
+      const early=new Date(); early.setHours(ih,im-buf,0,0);
+      const late =new Date(); late.setHours(ih,im+buf,0,0);
+      const inWin=now>=early&&now<=late;
+      const typeLabel=e.staffType==="livein"?"🏠 ဆိုင်တွင်နေ":"🚌 အပြင်မှ လာဆင်း";
+      return h("div",{className:`window-box anim-pop1${inWin?" win-active":" win-warn"}`},
+        h("div",{className:"window-row"},
+          h("span",{style:{fontSize:12,color:"var(--tx2)",fontWeight:600}},typeLabel),
+          h("span",{className:`type-badge ${e.staffType==="livein"?"type-livein":"type-external"}`},
+            e.staffType==="livein"?"No Geofence":"Geofence ✓"
+          )
+        ),
+        h("div",{className:"window-row",style:{marginTop:6}},
+          h("div",null,
+            h("p",{style:{margin:0,fontSize:10,color:"var(--tx4)"}},"Check In Window"),
+            h("p",{className:"win-time",style:{margin:"2px 0 0"}},fmtWindow(e.windowIn,buf))
+          ),
+          h("div",{style:{textAlign:"right"}},
+            h("p",{style:{margin:0,fontSize:10,color:"var(--tx4)"}},"Check Out Window"),
+            h("p",{className:"win-time",style:{margin:"2px 0 0"}},fmtWindow(e.windowOut,buf))
+          )
+        ),
+        inWin&&h("p",{style:{margin:"6px 0 0",fontSize:11,color:"var(--ok)",fontWeight:600}},"✅ ယခု Check In/Out Window အတွင်းဖြစ်သည်")
+      );
+    })(),
+    /* Stat row */
+    h("div",{className:"stat-row anim-pop2"},
+      h("div",{className:`stat-box${isIn?" hi":""}`},h("p",{className:"stat-lbl"},"Clock In Time"),h("p",{className:"stat-val"},fmtTime(rec?.in))),
+      h("div",{className:"stat-box"},h("p",{className:"stat-lbl"},"Work Hours"),h("p",{className:"stat-val"},calcHours(rec)||"--h --m")),
+      h("div",{className:`stat-box${done?" hi":""}`},h("p",{className:"stat-lbl"},"Clock Out"),h("p",{className:"stat-val"},fmtTime(rec?.out)))
+    ),
+    /* Tabs */
+    h("div",{className:"tabs anim-pop3"},
+      [["home","Home"],["dashboard","📊 Stats"],["calendar","📅 Cal"]].map(([id,lbl])=>
+        h("button",{key:id,className:`tab-btn${tab===id?" active":""}`,onClick:()=>setTab(id)},lbl)
+      )
+    ),
+    /* Home tab */
+    tab==="home"&&h("div",{className:"card card-lg anim-pop"},
+      h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},
+        h("h3",{style:{margin:0,fontFamily:"'DM Sans',sans-serif",fontSize:17,fontWeight:700,color:"var(--tx)"}},"Attendance History"),
+        h("button",{className:"btn btn-ghost btn-xs",style:{whiteSpace:"nowrap"}},"See All ›")
+      ),
+      locMsg&&h("p",{style:{color:"var(--wn)",fontSize:12,textAlign:"center",marginBottom:10}},locMsg),
+      loading&&h("div",{style:{display:"flex",justifyContent:"center",padding:10}},h("div",{className:"spinner"})),
+      ...histRows.map((row,i)=>
+        h("div",{key:i,className:"hist-row",style:{animationDelay:`${.05*i}s`}},
+          h("div",{className:"hist-icon"},
+            h("svg",{width:20,height:20,viewBox:"0 0 24 24",fill:"none"},
+              h("circle",{cx:12,cy:12,r:9,stroke:"var(--accent)",strokeWidth:1.8}),
+              h("path",{d:"M12 7v5l3 3",stroke:"var(--accent)",strokeWidth:1.8,strokeLinecap:"round"})
+            )
+          ),
+          h("div",{style:{flex:1}},
+            h("p",{style:{margin:0,fontWeight:600,fontSize:14,color:"var(--tx)"}},row.date),
+            h("p",{style:{margin:"3px 0 0",fontSize:12,color:"var(--tx4)",fontFamily:"'DM Mono',monospace"}},row.time)
+          ),
+          h("div",{style:{textAlign:"right"}},
+            h("p",{style:{margin:"0 0 4px",fontSize:12,color:"var(--tx3)"}},"ဆိုင်ရောက်"),
+            row.status==="Absent"
+              ?h("span",{className:"badge badge-er"},h("span",{className:"badge-dot",style:{background:"var(--er)"}}),row.status)
+              :row.status==="Early"
+              ?h("span",{className:"badge badge-ok"},h("span",{className:"badge-dot",style:{background:"var(--ok)"}}),row.status)
+              :row.status==="Late"
+              ?h("span",{className:"badge badge-wn"},h("span",{className:"badge-dot",style:{background:"var(--wn)"}}),row.status)
+              :h("span",{className:"badge badge-mu"},h("span",{className:"badge-dot",style:{background:"var(--tx4)"}}),row.status)
+          )
+        )
+      )
+    ),
+    tab==="calendar"&&h(CalView,{records,empId:emp.id}),
+    tab==="dashboard"&&h(DashTab,{records,empId:emp.id,emp}),
+    /* Selfie modal */
+    selfieMode&&h("div",{style:{position:"fixed",inset:0,zIndex:5000,background:"rgba(0,0,0,.85)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,padding:20}},
+      h("p",{style:{color:"#fff",fontSize:16,fontWeight:700,fontFamily:"'DM Sans',sans-serif",margin:0}},
+        selfieMode==="in"?"📸 Check In Selfie ရိုက်ပါ":"📸 Check Out Selfie ရိုက်ပါ"
+      ),
+      h("div",{style:{position:"relative",width:"100%",maxWidth:340,borderRadius:20,overflow:"hidden",background:"#111"}},
+        h("video",{ref:videoRef,playsInline:true,muted:true,style:{width:"100%",display:"block",borderRadius:20}}),
+        h("canvas",{ref:canvasRef,style:{display:"none"}})
+      ),
+      h("div",{style:{display:"flex",gap:12}},
+        h("button",{onClick:captureAndCheckIn,style:{width:64,height:64,borderRadius:"50%",background:"white",border:"4px solid rgba(255,255,255,.6)",fontSize:24,cursor:"pointer",boxShadow:"0 4px 20px rgba(0,0,0,.4)",transition:"transform .2s"},onMouseDown:e=>e.currentTarget.style.transform="scale(.9)",onMouseUp:e=>e.currentTarget.style.transform="scale(1)"},"📷"),
+        h("button",{onClick:()=>setSelfieMode(null),style:{width:48,height:48,borderRadius:"50%",background:"rgba(255,255,255,.15)",border:"2px solid rgba(255,255,255,.3)",color:"#fff",fontSize:18,cursor:"pointer",marginTop:8}},"✕")
+      ),
+      h("p",{style:{color:"rgba(255,255,255,.5)",fontSize:12,margin:0}},"Camera ခလုတ် နှိပ်ပြီး Selfie ရိုက်ပါ"),
+      /* Skip option */
+      h("button",{onClick:()=>{if(selfieMode==="in")onIn(null);else onOut(null);setSelfieMode(null);},style:{color:"rgba(255,255,255,.4)",background:"none",border:"none",fontSize:12,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}},"Skip — selfie မပါဘဲ check in")
+    )
+  );
+}
+
+/* ── DASHBOARD TAB ── */
+function DashTab({records,empId,emp}){
+  const now=new Date();
+  const yr=now.getFullYear(), mo=now.getMonth();
+  const days=daysInMonth(yr,mo), today=todayKey();
+  let present=0,absent=0,partial=0,totalMins=0;
+  const weekBars=[];
+  for(let d=1;d<=days;d++){
+    const k=dayKey(yr,mo,d); if(k>today)continue;
+    const r=(records[k]||{})[empId]||null;
+    if(!r?.in)absent++; else if(!r.out){partial++;totalMins+=calcMins(r);}else{present++;totalMins+=calcMins(r);}
+  }
+  const daysElapsed=present+absent+partial||1;
+  const rate=Math.round((present/daysElapsed)*100);
+  const avgH=present>0?Math.floor(totalMins/present/60):0;
+  const avgM=present>0?Math.floor((totalMins/present)%60):0;
+  /* Last 7 days bars */
+  for(let i=6;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10);
+    const r=(records[k]||{})[empId]||null;
+    const mins=r?.in&&r?.out?calcMins(r):0;
+    weekBars.push({k,mins,lbl:d.toLocaleDateString("en-GB",{weekday:"short"}).slice(0,1)});
+  }
+  const maxMins=Math.max(...weekBars.map(b=>b.mins),1);
+  const C=36, R=C-4, circ=2*Math.PI*R;
+  const dashLen=(rate/100)*circ;
+  return h("div",{style:{display:"flex",flexDirection:"column",gap:12,animation:"fadeUp .4s ease"}},
+    /* Summary ring + stats */
+    h("div",{className:"card card-lg"},
+      h("p",{className:"section-label"},"တစ်လ Summary — "+new Date(yr,mo).toLocaleDateString("en-GB",{month:"long",year:"numeric"})),
+      h("div",{style:{display:"flex",alignItems:"center",gap:20}},
+        /* Donut ring */
+        h("div",{className:"dash-ring-wrap"},
+          h("svg",{width:110,height:110,viewBox:"0 0 72 72"},
+            h("circle",{cx:36,cy:36,r:R,fill:"none",stroke:"var(--border)",strokeWidth:7}),
+            h("circle",{cx:36,cy:36,r:R,fill:"none",stroke:"var(--accent)",strokeWidth:7,strokeDasharray:`${dashLen} ${circ}`,strokeLinecap:"round",style:{transition:"stroke-dasharray .8s ease"}})
+          ),
+          h("div",{className:"dash-ring-center"},
+            h("p",{style:{margin:0,fontSize:22,fontWeight:800,color:"var(--accent)",fontFamily:"'DM Mono',monospace"}},rate+"%"),
+            h("p",{style:{margin:0,fontSize:9,color:"var(--tx4)",letterSpacing:.5}},"Attendance")
+          )
+        ),
+        /* Stats */
+        h("div",{style:{flex:1,display:"flex",flexDirection:"column",gap:8}},
+          [["✅","တက်ရောက်",present,"var(--ok)"],["⚠️","တစ်ဝက်",partial,"var(--wn)"],["❌","မတက်",absent,"var(--er)"]].map(([ic,lb,cnt,col])=>
+            h("div",{key:lb,style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"6px 10px",borderRadius:10,background:"var(--card2)",border:"1px solid var(--border)"}},
+              h("span",{style:{fontSize:12,color:"var(--tx2)"}},[ic," ",lb]),
+              h("span",{style:{fontWeight:700,fontSize:14,color:col,fontFamily:"'DM Mono',monospace"}},cnt)
+            )
+          )
+        )
+      )
+    ),
+    /* Avg hours */
+    h("div",{className:"stat-row"},
+      h("div",{className:"stat-box"},h("p",{className:"stat-lbl"},"ပျမ်းမျှ နာရီ"),h("p",{className:"stat-val"},`${avgH}h ${avgM}m`)),
+      h("div",{className:"stat-box"},h("p",{className:"stat-lbl"},"တက်ရောက်ရက်"),h("p",{className:"stat-val"},present+" ရက်")),
+      h("div",{className:"stat-box hi"},h("p",{className:"stat-lbl"},"Attendance Rate"),h("p",{className:"stat-val"},rate+"%"))
+    ),
+    /* 7-day bar chart */
+    h("div",{className:"card"},
+      h("p",{className:"section-label"},"နောက်ဆုံး ၇ ရက်"),
+      h("div",{style:{display:"flex",gap:6,alignItems:"flex-end",height:72}},
+        weekBars.map((b,i)=>{
+          const pct=b.mins/maxMins, h2=Math.max(pct*60,4);
+          const isToday=b.k===today;
+          return h("div",{key:i,style:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:3}},
+            h("div",{style:{width:"100%",height:h2,borderRadius:"4px 4px 0 0",background:isToday?"var(--accent)":b.mins>0?"rgba(37,99,235,0.35)":"var(--border)",transition:"height .5s cubic-bezier(.34,1.56,.64,1)",animationDelay:`${i*.04}s`}}),
+            h("span",{style:{fontSize:9,color:isToday?"var(--accent)":"var(--tx4)",fontWeight:isToday?700:400,fontFamily:"'DM Mono',monospace"}},b.lbl)
+          );
+        })
+      )
+    )
+  );
+}
+
+/* ── ADMIN PANEL ── */
+function AdminPanel({employees,records,adminCred,geofence,onSaveEmps,onSaveGeo,onSaveAdminPw,onLogout,toast,onAudit}){
+  const[tab,setTab]=useState("today");
+  const[list,setList]=useState(employees);
+  const[selEmp,setSelEmp]=useState(null);
+  const[addMode,setAddMode]=useState(false);
+  const[ne,setNe]=useState({name:"",role:"",username:"",password:"",avatar:"🧑",staffType:"external",windowIn:"08:00",windowOut:"17:00",windowBuf:30});
+  const[aPw,setAPw]=useState(adminCred.password);
+  const[pwD,setPwD]=useState(false);
+  useEffect(()=>setList(employees),[employees]);
+  const saveEmps=l=>{setList(l);onSaveEmps(l);};
+
+  const tabs=[["today","Today"],["calendar","📅 Calendar"],["employees","ဝန်ထမ်းများ"],["geofence","📍 Geofence"],["export","📊 Export"],["auditlog","📋 Log"]];
+  const[auditList,setAuditList]=useState([]);
+  useEffect(()=>{
+    if(tab!=="auditlog") return;
+    FS.get("logs/audit",{list:[]}).then(d=>setAuditList(d.list||[]));
+  },[tab]);
+
+  return h("div",{className:"page"},
+    /* Admin hero */
+    h("div",{className:"hero hero-admin anim-pop"},
+      h("div",{className:"hero-orb hero-orb-1"}),h("div",{className:"hero-orb hero-orb-2"}),
+      h("div",{style:{display:"flex",alignItems:"center",gap:14}},
+        h("div",{style:{width:50,height:50,borderRadius:16,background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,flexShrink:0}},"🔐"),
+        h("div",{style:{flex:1}},
+          h("h2",{style:{margin:0,fontFamily:"'DM Sans',sans-serif",fontSize:20,fontWeight:700,color:"#fff"}},"Admin Panel"),
+          h("p",{style:{margin:"2px 0 0",color:"rgba(255,255,255,0.6)",fontSize:13}},fmtDateMy(todayKey()))
+        ),
+        h("button",{className:"logout-btn",onClick:onLogout},"Logout")
+      )
+    ),
+    /* Tabs */
+    h("div",{className:"admin-tabs anim-pop1"},
+      tabs.map(([id,lbl])=>h("button",{key:id,className:`admin-tab${tab===id?" active":""}`,onClick:()=>{setTab(id);setSelEmp(null);}},lbl))
+    ),
+    /* Today */
+    tab==="today"&&h("div",{className:"card card-lg anim-pop"},
+      h(SL,{c:`ယနေ့ · ${fmtDateMy(todayKey())}`}),
+      list.length===0&&h("p",{style:{color:"var(--tx4)",textAlign:"center",padding:"10px 0"}},"ဝန်ထမ်းမရှိသေးပါ"),
+      ...list.map((emp,i)=>{
+        const r=(records[todayKey()]||{})[emp.id];
+        const done=r?.in&&r?.out,isIn=r?.in&&!r?.out;
+        return h("div",{key:emp.id,className:"emp-row"},
+          h("div",{className:"emp-avatar"},emp.avatar),
+          h("div",{style:{flex:1}},
+            h("div",{style:{display:"flex",alignItems:"center",gap:5}},
+              h("p",{style:{margin:0,fontWeight:600,fontSize:14,color:"var(--tx)"}},emp.name),
+              h("span",{className:`type-badge ${emp.staffType==="livein"?"type-livein":"type-external"}`},emp.staffType==="livein"?"🏠":"🚌")
+            ),
+            h("p",{style:{margin:"3px 0 0",color:"var(--tx4)",fontSize:12,fontFamily:"'DM Mono',monospace"}},`${emp.role} · @${emp.username}`)
+          ),
+          done?h("span",{className:"badge badge-ok"},h("span",{className:"badge-dot",style:{background:"var(--ok)"}}),`Done · ${calcHours(r)}`)
+           :isIn?h("span",{className:"badge badge-wn"},h("span",{className:"badge-dot",style:{background:"var(--wn)"}}),`In · ${fmtTime(r.in)}`)
+           :h("span",{className:"badge badge-mu"},h("span",{className:"badge-dot",style:{background:"var(--tx4)"}}), "မရောက်သေး")
+        );
+      })
+    ),
+    /* Calendar */
+    tab==="calendar"&&(
+      !selEmp
+        ?h("div",{className:"card card-lg anim-pop"},
+          h(SL,{c:"ဝန်ထမ်း ရွေးချယ်ပါ"}),
+          ...list.map(emp=>
+            h("div",{key:emp.id,className:"emp-row",onClick:()=>setSelEmp(emp)},
+              h("div",{className:"emp-avatar"},emp.avatar),
+              h("div",{style:{flex:1}},h("p",{style:{margin:0,fontWeight:600,fontSize:14,color:"var(--tx)"}},emp.name),h("p",{style:{margin:"3px 0 0",color:"var(--tx4)",fontSize:12}},emp.role)),
+              h("span",{style:{color:"var(--accent)",fontSize:18}})
+            )
+          )
+        )
+        :h("div",{style:{display:"flex",flexDirection:"column",gap:12}},
+          h("button",{className:"nav-back",onClick:()=>setSelEmp(null)},"← ဝန်ထမ်းစာရင်းသို့"),
+          h(CalView,{records,empId:selEmp.id,empName:selEmp.name,empAvatar:selEmp.avatar})
+        )
+    ),
+    /* Employees */
+    tab==="employees"&&h("div",{style:{display:"flex",flexDirection:"column",gap:12}},
+      h("div",{className:"card card-lg anim-pop"},
+        h(SL,{c:"ဝန်ထမ်းစာရင်း"}),
+        ...list.map((emp,i)=>h("div",{key:emp.id,style:{padding:"12px 14px",marginBottom:8,borderRadius:16,background:"var(--card2)",border:"1px solid var(--border)"}},
+          h("div",{className:"emp-row",style:{padding:0,margin:0,background:"transparent",border:"none"}},
+            h("div",{className:"emp-avatar",style:{width:42,height:42}},emp.avatar),
+            h("div",{style:{flex:1}},
+              h("div",{style:{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}},
+                h("p",{style:{margin:0,fontWeight:600,fontSize:14,color:"var(--tx)"}},`${emp.name} · ${emp.role}`),
+                h("span",{className:`type-badge ${emp.staffType==="livein"?"type-livein":"type-external"}`},emp.staffType==="livein"?"🏠 နေ":"🚌 လာ")
+              ),
+              h("p",{style:{margin:"2px 0 0",color:"var(--tx4)",fontSize:12,fontFamily:"'DM Mono',monospace"}},
+                `👤 ${emp.username}  🔑 ${emp.password}  ⏰ ${emp.windowIn||"—"} / ${emp.windowOut||"—"}`
+              )
+            ),
+            h(Btn,{cls:"btn-danger",xs:true,onClick:()=>{saveEmps(list.filter(e=>e.id!==emp.id));toast(`${emp.name} ဖျက်လိုက်ပါပြီ`,"err");if(onAudit)onAudit(adminCred.username,"delEmp",`${emp.name} (${emp.username}) ဖျက်`);}},"ဖျက်")
+          ),
+          h("div",{className:"device-pill device-pill-ok"},
+            h("span",{style:{color:"var(--ok)",fontSize:12,fontWeight:500}},"🔗 Device ချိတ်ဆက်ပြီး"),
+            h(Btn,{cls:"btn-danger",xs:true,onClick:()=>{const u=list.map(e=>e.id===emp.id?{...e,deviceId:null}:e);saveEmps(u);toast(`✅ ${emp.name} device reset ပြီး`);if(onAudit)onAudit(adminCred.username,"resetDev",`${emp.name} device binding reset`);}},"🔄 Reset")
+          )
+        )),
+        !addMode
+          ?h("button",{className:"add-dash",onClick:()=>setAddMode(true)},"+ ဝန်ထမ်းသစ် ထည့်မည်")
+          :h("div",{className:"add-form"},
+            h("div",{className:"grid2"},
+              h(Inp,{label:"အမည်",placeholder:"မင်းမင်း",value:ne.name,onChange:e=>setNe({...ne,name:e.target.value})}),
+              h(Inp,{label:"ရာထူး",placeholder:"Chef",value:ne.role,onChange:e=>setNe({...ne,role:e.target.value})}),
+              h(Inp,{label:"Username",placeholder:"minmin",value:ne.username,onChange:e=>setNe({...ne,username:e.target.value})}),
+              h(Inp,{label:"Password",placeholder:"1234",value:ne.password,onChange:e=>setNe({...ne,password:e.target.value})})
+            ),
+            h("div",{className:"grid2"},
+              h(Inp,{label:"Avatar Emoji",placeholder:"👨‍🍳",value:ne.avatar,onChange:e=>setNe({...ne,avatar:e.target.value})}),
+              h("div",{className:"field"},
+                h("label",null,"ဝန်ထမ်းအမျိုးအစား"),
+                h("select",{className:"inp",value:ne.staffType||"external",onChange:e=>setNe({...ne,staffType:e.target.value}),style:{padding:"11px 14px"}},
+                  h("option",{value:"external"},"🚌 အပြင်မှ လာဆင်း"),
+                  h("option",{value:"livein"},"🏠 ဆိုင်တွင်နေ")
+                )
+              )
+            ),
+            h("div",{className:"grid2"},
+              h(Inp,{label:"Check In ချိန် (HH:MM)",placeholder:"08:00",value:ne.windowIn||"08:00",onChange:e=>setNe({...ne,windowIn:e.target.value}),type:"time"}),
+              h(Inp,{label:"Check Out ချိန် (HH:MM)",placeholder:"17:00",value:ne.windowOut||"17:00",onChange:e=>setNe({...ne,windowOut:e.target.value}),type:"time"})
+            ),
+            h("div",{className:"field"},
+              h("label",null,`Window ± မိနစ် (±${ne.windowBuf||30} min)`),
+              h("input",{type:"range",min:10,max:60,step:5,value:ne.windowBuf||30,onChange:e=>setNe({...ne,windowBuf:+e.target.value})})
+            ),
+            h("div",{className:"grid2"},
+              h(Btn,{cls:"btn-ghost",full:true,onClick:()=>setAddMode(false)},"မလုပ်တော့"),
+              h(Btn,{cls:"btn-green",full:true,onClick:()=>{
+                if(!ne.name||!ne.username||!ne.password){toast("အချက်အလက် ဖြည့်ပါ","err");return;}
+                if(list.find(e=>e.username===ne.username)){toast("Username ရှိနှင့်ပြီးသား","err");return;}
+                const emp={...ne,id:"e"+Date.now(),deviceId:null,staffType:ne.staffType||"external",windowIn:ne.windowIn||"08:00",windowOut:ne.windowOut||"17:00",windowBuf:ne.windowBuf||30};
+                saveEmps([...list,emp]);setNe({name:"",role:"",username:"",password:"",avatar:"🧑",staffType:"external",windowIn:"08:00",windowOut:"17:00",windowBuf:30});setAddMode(false);toast(`✅ ${emp.name} ထည့်သွင်းပြီး`);if(onAudit)onAudit(adminCred.username,"addEmp",`${emp.name} (${emp.username}) ထည့်သွင်း`);
+              }},"ထည့်မည်")
+            )
+          )
+      ),
+      h("div",{className:"card anim-pop1"},
+        h(SL,{c:"Admin Password ပြောင်းမည်"}),
+        h("div",{className:"pw-row"},
+          h("div",{style:{flex:1}},h(Inp,{placeholder:"Password အသစ်",value:aPw,onChange:e=>{setAPw(e.target.value);setPwD(true);}})),
+          pwD&&h(Btn,{cls:"btn-blue",sm:true,style:{whiteSpace:"nowrap"},onClick:()=>{if(!aPw){toast("မဖြည့်ရသေးပါ","err");return;}onSaveAdminPw(aPw);setPwD(false);toast("✅ Admin password ပြောင်းပြီး");if(onAudit)onAudit(adminCred.username,"chgPw","Admin password ပြောင်း");}},"သိမ်းမည်")
+        )
+      )
+    ),
+    tab==="geofence"&&h(GeoTab,{geofence,onSave:onSaveGeo,toast}),
+    tab==="export"&&h(ExportTab,{employees:list,records,toast}),
+    tab==="auditlog"&&h("div",{className:"card card-lg anim-pop"},
+      h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}},
+        h(SL,{c:"📋 Admin Audit Log"}),
+        h("button",{className:"btn btn-danger btn-xs",onClick:async()=>{await FS.set("logs/audit",{list:[]});setAuditList([]);toast("✅ Log ရှင်းလင်းပြီး");}},
+          "🗑 ရှင်းမည်"
+        )
+      ),
+      auditList.length===0&&h("p",{style:{color:"var(--tx4)",textAlign:"center",padding:"16px 0",fontSize:13}},"Log မရှိသေးပါ"),
+      ...auditList.slice(0,50).map((entry,i)=>{
+        const at=AUDIT_TYPES[entry.type]||{icon:"📝",cls:"audit-login",label:entry.type};
+        const dt=new Date(entry.ts);
+        const dtStr=dt.toLocaleDateString("en-GB",{day:"2-digit",month:"short"})+" "+dt.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+        return h("div",{key:i,className:"audit-row"},
+          h("div",{className:`audit-icon ${at.cls}`},at.icon),
+          h("div",{style:{flex:1}},
+            h("p",{style:{margin:0,fontWeight:600,fontSize:13,color:"var(--tx)"}},at.label+" — ",h("span",{style:{color:"var(--accent)",fontWeight:700}},entry.admin||"?")),
+            entry.detail&&h("p",{style:{margin:"2px 0 0",fontSize:12,color:"var(--tx3)"}},entry.detail),
+            h("p",{className:"audit-ts"},dtStr+(navigator.onLine?"":" (offline)"))
+          )
+        );
+      })
+    )
+  );
+}
+
+/* ── ROOT APP ── */
+function App(){
+  const[employees,setEmployees]=useState(DEF_EMPS);
+  const[adminCred,setAdminCred]=useState(DEF_ADMIN);
+  const[records,setRecords]=useState({});
+  const[geofence,setGeofence]=useState(DEF_GEO);
+  const[session,setSession]=useState(null);
+  const[loading,setLoading]=useState(false);
+  const[locMsg,setLocMsg]=useState("");
+  const[toastD,setToastD]=useState(null);
+  const[ready,setReady]=useState(false);
+
+  const showToast=(msg,err)=>{setToastD({msg,err});setTimeout(()=>setToastD(null),3000);};
+  const[adminUser,setAdminUser]=useState("admin");
+  const auditLog=(user,type,detail)=>writeAudit(user||adminUser,type,detail);
+
+  useEffect(()=>{
+    if(!CONFIGURED){setReady(true);return;}
+    Promise.all([FS.get("config/employees",{list:DEF_EMPS}),FS.get("config/admin",DEF_ADMIN),FS.get("config/geofence",DEF_GEO),FS.get("data/records",{})]).then(([ed,ad,gd,rd])=>{setEmployees(ed.list||DEF_EMPS);setAdminCred(ad);setGeofence(gd);setRecords(rd);setReady(true);});
+    const us=[FS.listen("config/employees",d=>{if(d.list)setEmployees(d.list);}),FS.listen("config/admin",d=>setAdminCred(d)),FS.listen("config/geofence",d=>setGeofence(d)),FS.listen("data/records",d=>setRecords(d))];
+    return()=>us.forEach(u=>u&&u());
+  },[]);
+
+  const saveEmps=async l=>{setEmployees(l);await FS.set("config/employees",{list:l});};
+  const saveAdminPw=async pw=>{const a={...adminCred,password:pw};setAdminCred(a);await FS.set("config/admin",a);};
+  const saveGeo=async g=>{setGeofence(g);await FS.set("config/geofence",g);};
+  const saveRec=async r=>{setRecords(r);await FS.set("data/records",r);};
+
+  const getLoc=useCallback(()=>new Promise(res=>{
+    if(!navigator.geolocation){res({loc:"GPS မရနိုင်",ok:!geofence.enabled});return;}
+    setLocMsg("📍 တည်နေရာ စစ်ဆေးနေသည်...");
+    navigator.geolocation.getCurrentPosition(
+      p=>{setLocMsg("");const loc=`${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`;if(geofence.enabled&&geofence.lat){const dist=haversine(geofence.lat,geofence.lng,p.coords.latitude,p.coords.longitude);if(dist>geofence.radius){res({loc,ok:false,dist:Math.round(dist)});return;}}res({loc,ok:true});},
+      err=>{setLocMsg("");const m={1:"Location permission ပိတ်ထားသည်",2:"GPS signal မရ",3:"GPS timeout"};res(geofence.enabled&&geofence.lat?{loc:m[err.code]||"Error",ok:false,noGPS:true}:{loc:"Location မရ",ok:true});},
+      {timeout:10000,enableHighAccuracy:true,maximumAge:0}
+    );
+  }),[geofence]);
+
+  const doAction=async(type,photo)=>{
+    if(!session?.emp)return;setLoading(true);
+    const emp=session.emp;
+    /* ── Window check (both types) ── */
+    const wc=inWindow(emp,type);
+    if(!wc.ok){setLoading(false);showToast(wc.msg,"err");return;}
+    /* ── Geofence (external only) ── */
+    let loc="(live-in staff)";
+    if(emp.staffType!=="livein"){
+      const g=await getLoc();
+      if(!g.ok){setLoading(false);showToast(g.noGPS?`❌ ${g.loc}`:`🚫 ဆိုင်မှ ${g.dist}m ဝေးနေသည် — ဆိုင်ရောက်မှ Check In/Out လုပ်ပါ`,"err");return;}
+      loc=g.loc;
+    } else { setLocMsg(""); }
+    const nr={...records};if(!nr[todayKey()])nr[todayKey()]={};
+    const entry={...(nr[todayKey()][session.emp.id]||{}),[type]:Date.now(),[type+"Loc"]:loc};
+    if(photo) entry[type+"Photo"]=photo;
+    nr[todayKey()][session.emp.id]=entry;
+    await saveRec(nr);setLoading(false);
+    showToast(type==="in"?`✅ ${session.emp.name} — Check In အောင်မြင်သည်`:`👋 ${session.emp.name} — Check Out အောင်မြင်သည်`);
+    // Browser notification to admin (if permitted)
+    if(Notification.permission==="granted"){
+      try{new Notification("T Moe Attendance",{body:`${session.emp.name} ${type==="in"?"Check In ✅":"Check Out 👋"}`,icon:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232563eb' rx='20'/><text y='.9em' font-size='80'>⏰</text></svg>"});}catch{}
+    }
+  };
+
+  if(!ready) return h("div",{className:"flex-center"},
+    h("svg",{width:48,height:48,viewBox:"0 0 48 48",fill:"none"},h("circle",{cx:24,cy:24,r:20,stroke:"var(--accent)",strokeWidth:2.5}),h("path",{d:"M24 13v11l7 7",stroke:"var(--accent)",strokeWidth:2.5,strokeLinecap:"round"})),
+    h("div",{className:"spinner"}),
+    h("p",{style:{color:"var(--tx4)",fontSize:12,fontFamily:"'DM Sans',sans-serif"}},"Cloud data ရယူနေသည်...")
+  );
+
+  return h(React.Fragment,null,
+    h(Toast,{t:toastD}),
+    /* App header */
+    h("div",{className:"app-header"},
+      h("h1",{className:"app-header-title"},session?"Attendance":"Welcome"),
+      session&&h("div",{className:"header-actions"},
+        h("div",{className:"icon-btn"},"🔍"),
+        h("div",{className:"icon-btn"},"🔔")
+      )
+    ),
+    !CONFIGURED
+      ?h("div",{className:"page"},
+        h("div",{className:"card card-lg anim-pop"},
+          h(SL,{c:"⚙️ Firebase Setup လိုအပ်သည်"}),
+          ...[["1️⃣","Firebase Console သွားပါ","console.firebase.google.com → Login"],["2️⃣","Project ဖွင့်ပါ","Add project → Attendance → Create"],["3️⃣","Web App ထည့်ပါ","</> icon → attendance → Register"],["4️⃣","Config ကူးပါ","firebaseConfig values ကူးပါ"],["5️⃣","Firestore ဖွင့်ပါ","Build → Firestore → Create database → test mode"],["6️⃣","File ပြင်ပါ","FIREBASE_CONFIG ထဲ ထည့်ပါ → GitHub upload"]].map(([n,t,d])=>
+            h("div",{key:n,className:"setup-step"},h("span",{style:{fontSize:20,flexShrink:0}},n),h("div",null,h("p",{style:{margin:0,fontWeight:600,fontSize:13,color:"var(--tx)"}},t),h("p",{style:{margin:"4px 0 0",color:"var(--tx3)",fontSize:11,lineHeight:1.5}},d)))
+          )
+        )
+      )
+      :!session
+      ?h(Login,{employees,admin:adminCred,onLogin:(role,emp)=>{setSession({role,emp});if(role==="admin")setAdminUser("admin");},onSaveEmps:saveEmps,onAudit:auditLog})
+      :session.role==="emp"
+      ?h(EmpDash,{emp:session.emp,employees,records,geofence,onIn:(photo)=>doAction("in",photo),onOut:(photo)=>doAction("out",photo),loading,locMsg,onLogout:()=>setSession(null)})
+      :h(AdminPanel,{employees,records,adminCred,geofence,onSaveEmps:saveEmps,onSaveGeo:saveGeo,onSaveAdminPw:saveAdminPw,onLogout:()=>{auditLog(adminUser,"logout","Admin logout");setSession(null);},toast:showToast,onAudit:auditLog})
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App,null));
+</script>
+</body>
+</html>
